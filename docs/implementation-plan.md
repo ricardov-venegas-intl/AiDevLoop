@@ -214,7 +214,7 @@ Define the five I/O adapter interfaces that form the boundary between the orches
 - `IFileOperations`: synchronous methods — `ReadFile`, `WriteFile` (atomic), `CopyFile`, `MoveFile`, `CreateDirectory`, `FileExists`, `DirectoryExists`, `ListFiles`, `ArchiveContextFiles`. No async — file I/O is fast enough per architecture simplicity decisions.
 - `IProcessRunner`: async methods with `CancellationToken` — `Task<CommandResult> RunAsync(string command, string arguments, CancellationToken cancellationToken)` plus an overload with working directory and verbose flag
 - `ILLMClient`: async method — `Task<string> InvokeAsync(string prompt, CancellationToken cancellationToken)`. Returns LLM response text.
-- `IGitClient`: async methods with `CancellationToken` — `StageAllAsync`, `CommitAsync`, `GetStatusAsync` per architecture signatures
+- `IGitClient`: async methods with `CancellationToken` — `Task StageAllAsync(CancellationToken cancellationToken)`, `Task CommitAsync(string message, CancellationToken cancellationToken)`, `Task<GitStatus> GetStatusAsync(CancellationToken cancellationToken)`. These signatures are the canonical source of truth and supersede any older synchronous `IGitClient` definitions (e.g., in `docs/architecture.md`).
 - `IConsoleIO`: synchronous methods — `WriteStep`, `WriteError`, `WriteWarning`, `WriteVerbose`, `Confirm`, `PromptChoice<T>` per architecture specification
 - All methods must have XML documentation
 - Interface segregation: each interface has exactly one responsibility
@@ -538,7 +538,7 @@ A pure function that analyzes a list of `CommandResult` objects from validation 
 
 ### Constraints
 
-- Pure function: `ValidationResult Validate(IReadOnlyList<CommandResult> commandResults)`
+- Pure function: `ValidationResult Validate(IReadOnlyList<CommandResult> commandResults)`. This signature supersedes the older `ValidationResult Validate(TaskDefinition task, List<CommandResult> commandResults)` signature shown in `docs/architecture.md` — the implementation plan is the canonical source of truth.
 - `ExitCode != 0` means the command failed
 - `AllPassed` is true only when every command has `ExitCode == 0`
 - `FailedCommands` contains all `CommandResult` objects with non-zero exit codes
