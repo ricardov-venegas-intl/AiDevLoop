@@ -12,7 +12,6 @@
 - @docs/architecture.md — Functional Core / Imperative Shell, I/O adapter interfaces, pipeline design
 - @docs/coding-style.md — C# conventions (XML docs, one type per file, TimeProvider, record types, async/await)
 - @docs/implementation-plan.md — Phased development plan with acceptance criteria
-- @CLAUDE.md — Project conventions and coordination patterns
 
 ## Key Patterns
 - Functional Core: pure functions with no I/O; deterministic and easily unit-testable
@@ -30,7 +29,7 @@
 1. Task documentation in @./context/current-task.md (task number, name, definition of done, steps, acceptance criteria)
 2. Git branch named `task/{task-name}` with implementation
 3. Implementation notes in @./context/implementation-notes.md
-4. Code review report in @./context/code-review.md
+4. Code review report in @./context/review.md
 5. Updated @docs/implementation-plan.md with task marked as complete
 6. Confirmation request before final commit
 </task>
@@ -59,15 +58,15 @@
 - Asking about file locations, architecture decisions, or code patterns that can be inferred from docs
 - Creating multiple types in a single file
 - Mutable classes when records work
-- Abstract base classes in application code
+- Business logic in the imperative shell instead of the functional core
 - Blocking async calls (`.Result`, `.Wait()`)
 - Commits without user verification
 
 ## Boundaries
-- Desktop-only targets (Windows/macOS) — no mobile platforms
-- Single-user app — no multi-user features
-- Session state not persisted (except last root folder and settings)
-- Token counting: length/4 heuristic only for v1
+- CLI-only tool — no GUI or desktop UI components
+- Cross-platform targets: Windows, macOS, and Linux
+- Local, single-user usage only — no multi-user coordination or shared server mode
+- No implicit session state between runs beyond explicit configuration and cache files
 
 ## Before Asking Any Question
 1. Can I find this in @docs/requirements.md?
@@ -128,7 +127,7 @@
 - [Note 1]
 ```
 
-**Code Review Report** (@./context/code-review.md):
+**Code Review Report** (@./context/review.md):
 ```
 # Code Review Report: Task [Number]
 
@@ -153,7 +152,7 @@
 ```
 
 ## Branch Naming
-Format: `task/1.1-Create-Solution` (task number and kebab-case task name)
+Format: `task/TASK-001-Create-solution-and-project-structure` (task number and kebab-case task name)
 </output-format>
 
 <approach>
@@ -180,7 +179,7 @@ Format: `task/1.1-Create-Solution` (task number and kebab-case task name)
 4. **Code Review (Iterative)**
    - Invoke dotnet-code-reviewer agent
    - Agent should read: implementation-notes.md, requirements.md, architecture.md
-   - Agent saves review report to @./context/code-review.md
+   - Agent saves review report to @./context/review.md
    - Categorize issues: Blocking | Non-Blocking | Nitpicks
    - **If blocking issues:** Fix and repeat review (max 3 iterations)
    - **If no blocking issues:** Proceed to step 5
@@ -190,16 +189,16 @@ Format: `task/1.1-Create-Solution` (task number and kebab-case task name)
    - Ask user approval before committing
 
 6. **Update Plan**
-   - Mark task as complete in @docs/implementation-plan.md
-   - Check all checkboxes for the completed task section
-   - Update task header checkbox: `### [x] [Task Number] [Task Name]`
+   - In @docs/implementation-plan.md, mark this task's milestone list item as complete (change `- [ ] TASK-XXX · ...` to `- [x] TASK-XXX · ...`).
+   - In the task definition section for this task, update the `**Status:**` field to reflect completion (for example, `**Status:** Completed`).
+   - Ensure all relevant checkboxes within the completed task's details (steps, acceptance criteria, etc.) are checked as appropriate.
 
 7. **Archive Context Files**
-   - Create folder under @./context/History named `{task-number}-{kebab-case-task-name}` (e.g., `1.1-Create-Solution`)
-   - Move these files to the history folder:
+   - Create folder under @./context/completed named `{TASK-ID}` (e.g., `TASK-001`)
+   - Move these files to the completed task folder:
      - @./context/current-task.md
      - @./context/implementation-notes.md
-     - @./context/code-review.md
+     - @./context/review.md
 
 8. **No Commit Yet**
    - User must explicitly approve before running `git commit`
@@ -219,7 +218,7 @@ After implementation and review approval, verify:
 - [ ] All tests pass (`dotnet test`)
 - [ ] XML docs present on all public APIs
 - [ ] One type per file
-- [ ] No abstract base classes in application code
+- [ ] Functional Core remains pure (no I/O, no mutable shared state, no framework dependencies)
 - [ ] Constructor injection used (no service locators)
 - [ ] CancellationToken in all async methods
 - [ ] Record types used for models
