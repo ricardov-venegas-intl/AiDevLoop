@@ -2,22 +2,25 @@
 
 <context>
 ## Domain Knowledge
-- **Project:** mkprompt — .NET MAUI desktop app for iterating AI prompts via OpenRouter
-- **Pattern:** MVVM with light service layer
-- **Tech Stack:** C# 13/.NET 10, CommunityToolkit.Mvvm, System.Text.Json, xUnit + NSubstitute
+- **Project:** AiDevLoop is a command-line tool that automates Phase 2 (Development Loop) of the LLM-Assisted Development Methodology.
+- **Pattern:** Functional Core + Imperative Shell (pipeline-based)
+- **Tech Stack:** C# 13 / .NET 10, System.Text.Json, xUnit, NSubstitute (CLI app)
+- **Projects:** AiDevLoop.Cli (entry), AiDevLoop.Shell (I/O & orchestrator), AiDevLoop.Core (pure logic)
 
 ## Reference Documentation
-- @docs/mkprompt-prd.md — Product requirements, features, error states
-- @docs/architecture.md — MVVM implementation, service interfaces, ViewModel specs
-- @docs/coding-style.md — C# conventions (XML docs, one type per file, _camelCase fields, TimeProvider, record types, async/await)
+- @docs/requirements.md — Product requirements, CLI behavior, validation commands
+- @docs/architecture.md — Functional Core / Imperative Shell, I/O adapter interfaces, pipeline design
+- @docs/coding-style.md — C# conventions (XML docs, one type per file, TimeProvider, record types, async/await)
 - @docs/implementation-plan.md — Phased development plan with acceptance criteria
 - @CLAUDE.md — Project conventions and coordination patterns
 
 ## Key Patterns
-- Models: Immutable `record` with primary constructors, no behavior
-- ViewModels: `ObservableObject` base, `[ObservableProperty]` for state, `[RelayCommand]` for commands
-- Services: Interface + implementation, singleton DI registration (except `IOpenRouterService` via `AddHttpClient<>()`)
-- Coordination: Never VM-to-VM references; use shared services or events
+- Functional Core: pure functions with no I/O; deterministic and easily unit-testable
+- Imperative Shell: orchestrates I/O (file operations, process runner, LLM client, git, console) and invokes core functions
+- I/O Adapters: `IFileOperations`, `IProcessRunner`, `ILLMClient`, `IGitClient`, `IConsoleIO` — small, focused interfaces with in-memory/test implementations
+- Domain types: use `record` for DTOs and `readonly record struct` for value objects; prefer immutability
+- Dependency injection: constructor injection in the Shell; Core has zero dependencies (no service locators)
+- Coordination: Orchestrator composes prompts and drives the 8-step pipeline; core functions return decision objects and never perform I/O
 </context>
 
 <task>
@@ -39,7 +42,7 @@
 - [ ] All tests pass (`dotnet test`)
 - [ ] Code follows @docs/coding-style.md conventions (XML docs, one type per file, nullable refs enabled)
 - [ ] Implementation notes document decisions, known limitations, and risk areas
-- [ ] Code review via dotnet-maui-reviewer agent completed
+- [ ] Code review via dotnet-code-reviewer agent completed
 - [ ] All blocking issues from review resolved (max 3 review iterations)
 - [ ] User verification requested before commit
 
@@ -56,7 +59,7 @@
 - Asking about file locations, architecture decisions, or code patterns that can be inferred from docs
 - Creating multiple types in a single file
 - Mutable classes when records work
-- Abstract base ViewModels in application code
+- Abstract base classes in application code
 - Blocking async calls (`.Result`, `.Wait()`)
 - Commits without user verification
 
@@ -67,7 +70,7 @@
 - Token counting: length/4 heuristic only for v1
 
 ## Before Asking Any Question
-1. Can I find this in @docs/mkprompt-prd.md?
+1. Can I find this in @docs/requirements.md?
 2. Can I find this in @docs/architecture.md?
 3. Can I infer this from existing code patterns?
 4. Is this decision unimportant to the outcome?
@@ -150,7 +153,7 @@
 ```
 
 ## Branch Naming
-Format: `task/1.1-Create-MAUI-Solution` (task number and kebab-case task name)
+Format: `task/1.1-Create-Solution` (task number and kebab-case task name)
 </output-format>
 
 <approach>
@@ -167,7 +170,7 @@ Format: `task/1.1-Create-MAUI-Solution` (task number and kebab-case task name)
    - Create local branch: `git checkout -b task/{task-name}` from main
 
 3. **Implement Task**
-   - Before coding: Re-read relevant sections of @docs/architecture.md and @docs/mkprompt-prd.md
+   - Before coding: Re-read relevant sections of @docs/architecture.md and @docs/requirements.md
    - Follow @docs/coding-style.md throughout
    - Build frequently: `dotnet build -warnaserror`
    - Run tests: `dotnet test`
@@ -176,7 +179,7 @@ Format: `task/1.1-Create-MAUI-Solution` (task number and kebab-case task name)
 
 4. **Code Review (Iterative)**
    - Invoke dotnet-code-reviewer agent
-   - Agent should read: implementation-notes.md, mkprompt-prd.md, architecture.md
+   - Agent should read: implementation-notes.md, requirements.md, architecture.md
    - Agent saves review report to @./context/code-review.md
    - Categorize issues: Blocking | Non-Blocking | Nitpicks
    - **If blocking issues:** Fix and repeat review (max 3 iterations)
@@ -192,7 +195,7 @@ Format: `task/1.1-Create-MAUI-Solution` (task number and kebab-case task name)
    - Update task header checkbox: `### [x] [Task Number] [Task Name]`
 
 7. **Archive Context Files**
-   - Create folder under @./context/History named `{task-number}-{kebab-case-task-name}` (e.g., `1-Create-Solution`)
+   - Create folder under @./context/History named `{task-number}-{kebab-case-task-name}` (e.g., `1.1-Create-Solution`)
    - Move these files to the history folder:
      - @./context/current-task.md
      - @./context/implementation-notes.md
@@ -203,7 +206,6 @@ Format: `task/1.1-Create-MAUI-Solution` (task number and kebab-case task name)
 
 9. **Create Pull Request**
    - Once user approves, commit all changes with appropriate commit message
-   - Follow git commit conventions from CLAUDE.md
    - Push branch to remote
    - Create PR targeting main branch with summary of changes and test plan
 
@@ -217,7 +219,7 @@ After implementation and review approval, verify:
 - [ ] All tests pass (`dotnet test`)
 - [ ] XML docs present on all public APIs
 - [ ] One type per file
-- [ ] No abstract base ViewModels in application code
+- [ ] No abstract base classes in application code
 - [ ] Constructor injection used (no service locators)
 - [ ] CancellationToken in all async methods
 - [ ] Record types used for models
