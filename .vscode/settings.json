@@ -1,0 +1,10 @@
+{
+    "testExplorer.useNativeTesting": true,
+    "testExplorer.codeLens": true,
+    "testExplorer.gutterDecoration": true,
+    "testExplorer.showOnRun": true,
+    "dotnet-test-explorer.testProjectPath": "**/*Tests.csproj",
+    "dotnet-test-explorer.autoWatch": false,
+    "dotnet-test-explorer.testArguments": "",
+    "dotnet-test-explorer.enableTelemetry": false
+}

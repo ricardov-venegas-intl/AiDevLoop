@@ -2,7 +2,7 @@
 
 ## Milestone 1 — Project Scaffolding & Domain Model
 
-- [ ] TASK-001 · Trivial · Create solution and project structure
+- [x] TASK-001 · Trivial · Create solution and project structure
 - [ ] TASK-002 · Simple · Define core domain types
 - [ ] TASK-003 · Simple · Define shell adapter interfaces
 
@@ -59,7 +59,7 @@
 ## TASK-001: Create solution and project structure
 
 **Milestone:** 1 — Project Scaffolding & Domain Model
-**Status:** pending
+**Status:** Completed
 **Complexity:** Trivial
 **Depends on:** —
 
@@ -92,12 +92,12 @@ Create the .NET 10.0 solution with three source projects (AiDevLoop.Cli, AiDevLo
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Solution file exists and references all 6 projects
-- [ ] `dotnet build` succeeds with zero errors and zero warnings
-- [ ] `dotnet test` executes (even with no test methods yet)
-- [ ] Directory.Build.props sets TargetFramework, Nullable, and ImplicitUsings
-- [ ] Project reference graph: Core → nothing, Shell → Core, Cli → Core + Shell
-- [ ] No lint/type errors
+- [x] Solution file exists and references all 6 projects
+- [x] `dotnet build` succeeds with zero errors and zero warnings
+- [x] `dotnet test` executes (even with no test methods yet)
+- [x] Directory.Build.props sets TargetFramework, Nullable, and ImplicitUsings
+- [x] Project reference graph: Core → nothing, Shell → Core, Cli → Core + Shell
+- [x] No lint/type errors
 
 ### Context references
 

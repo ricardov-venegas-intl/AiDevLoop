@@ -1,0 +1,76 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch AiDevLoop.Cli (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/AiDevLoop.Cli/bin/Debug/net10.0/AiDevLoop.Cli.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/AiDevLoop.Cli",
+            "stopAtEntry": false,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug AiDevLoop.Core.Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "dotnet",
+            "args": [
+                "test",
+                "${workspaceFolder}/tests/AiDevLoop.Core.Tests/AiDevLoop.Core.Tests.csproj",
+                "--configuration",
+                "Debug"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Debug AiDevLoop.Shell.Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "dotnet",
+            "args": [
+                "test",
+                "${workspaceFolder}/tests/AiDevLoop.Shell.Tests/AiDevLoop.Shell.Tests.csproj",
+                "--configuration",
+                "Debug"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Debug AiDevLoop.E2E.Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "dotnet",
+            "args": [
+                "test",
+                "${workspaceFolder}/tests/AiDevLoop.E2E.Tests/AiDevLoop.E2E.Tests.csproj",
+                "--configuration",
+                "Debug"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopAtEntry": false
+        },
+        {
+            "name": "Attach to .NET Process",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:pickProcess}"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Launch CLI + Attach",
+            "configurations": [
+                "Launch AiDevLoop.Cli (console)",
+                "Attach to .NET Process"
+            ]
+        }
+    ]
+}
