@@ -192,7 +192,7 @@ Format: `task/1.1-Create-MAUI-Solution` (task number and kebab-case task name)
    - Update task header checkbox: `### [x] [Task Number] [Task Name]`
 
 7. **Archive Context Files**
-   - Create folder under @./context/History named `{task-number}-{kebab-case-task-name}` (e.g., `1.1-Create-MAUI-Solution`)
+   - Create folder under @./context/History named `{task-number}-{kebab-case-task-name}` (e.g., `1-Create-Solution`)
    - Move these files to the history folder:
      - @./context/current-task.md
      - @./context/implementation-notes.md
