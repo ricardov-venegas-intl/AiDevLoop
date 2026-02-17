@@ -166,7 +166,7 @@ Format: `task/1.1-Create-Solution` (task number and kebab-case task name)
    - Save to @./context/current-task.md
 
 2. **Create Branch**
-   - get the lastest changes from main
+   - get the latest changes from main
    - Create local branch: `git checkout -b task/{task-name}` from main
 
 3. **Implement Task**
