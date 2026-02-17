@@ -345,6 +345,8 @@ A `CommandLineParser` that parses `string[] args` into a `CommandLineArgs` recor
 - `src/AiDevLoop.Cli/CommandLineParser.cs` (create)
 - `tests/AiDevLoop.Shell.Tests/CommandLineParserTests.cs` (create)
 
+> Note: Per TASK-001, we only maintain three test projects (`Core.Tests`, `Shell.Tests`, `E2E.Tests`).  
+> CLI-related tests, including `CommandLineParserTests`, are intentionally grouped under `AiDevLoop.Shell.Tests` to avoid introducing an additional `AiDevLoop.Cli.Tests` project while keeping all shell/CLI surface tests together.
 ### Constraints
 
 - No external CLI parsing library — implement manually with simple string parsing
