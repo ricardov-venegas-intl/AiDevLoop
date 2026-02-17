@@ -254,7 +254,7 @@ A `ConfigurationLoader` that reads configuration from `.aidevloop.json` or `.aid
 ### Files in scope
 
 - `src/AiDevLoop.Cli/ConfigurationLoader.cs` (create)
-- `tests/AiDevLoop.Shell.Tests/ConfigurationLoaderTests.cs` (create)
+- `tests/AiDevLoop.Cli.Tests/ConfigurationLoaderTests.cs` (create)
 
 ### Constraints
 
