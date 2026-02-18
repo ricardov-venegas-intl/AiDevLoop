@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Launch (AiDevLoop.Cli)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/AiDevLoop.Cli/bin/Debug/net10.0/AiDevLoop.Cli.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/AiDevLoop.Cli",
+            "stopAtEntry": false,
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Attach to Process (.NET)",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}

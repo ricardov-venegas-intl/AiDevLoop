@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AiDevLoop.Cli/AiDevLoop.Cli.csproj" />
+    <Project Path="src/AiDevLoop.Core/AiDevLoop.Core.csproj" />
+    <Project Path="src/AiDevLoop.Shell/AiDevLoop.Shell.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AiDevLoop.Core.Tests/AiDevLoop.Core.Tests.csproj" />
+    <Project Path="tests/AiDevLoop.E2E.Tests/AiDevLoop.E2E.Tests.csproj" />
+    <Project Path="tests/AiDevLoop.Shell.Tests/AiDevLoop.Shell.Tests.csproj" />
+  </Folder>
+</Solution>
