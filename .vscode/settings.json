@@ -3,6 +3,12 @@
         "dotnet restore": true,
         "dotnet build": true,
         "git remote": true,
-        "gh": true
+        "gh": true,
+        "git checkout": true,
+        "git pull": true,
+        "New-Item": true,
+        "Copy-Item": true,
+        "git add": true,
+        "git commit": true
     }
 }
