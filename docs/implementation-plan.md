@@ -8,7 +8,7 @@
 
 ## Milestone 2 — Configuration & CLI Parsing
 
-- [ ] TASK-004 · Simple · Implement ConfigurationLoader
+- [x] TASK-004 · Simple · Implement ConfigurationLoader
 - [ ] TASK-005 · Simple · Implement ConfigurationValidator
 - [ ] TASK-006 · Simple · Implement CommandLineParser
 
@@ -247,7 +247,7 @@ Define the five I/O adapter interfaces that form the boundary between the orches
 ## TASK-004: Implement ConfigurationLoader
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -272,14 +272,14 @@ A `ConfigurationLoader` that reads configuration from `.aidevloop.json` or `.aid
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Loads valid `.aidevloop.json` correctly
-- [ ] Loads valid `.aidevloop.yaml` correctly
-- [ ] Returns defaults when no config file exists
-- [ ] CLI `--llm` override takes precedence over file value
-- [ ] CLI `--verbose` override takes precedence over file value
-- [ ] `--config=path` loads from the specified path
-- [ ] Returns error for malformed JSON/YAML
-- [ ] No lint/type errors
+- [x] Loads valid `.aidevloop.json` correctly
+- [x] Loads valid `.aidevloop.yaml` correctly
+- [x] Returns defaults when no config file exists
+- [x] CLI `--llm` override takes precedence over file value
+- [x] CLI `--verbose` override takes precedence over file value
+- [x] `--config=path` loads from the specified path
+- [x] Returns error for malformed JSON/YAML
+- [x] No lint/type errors
 
 ### Context references
 

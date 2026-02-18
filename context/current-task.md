@@ -1,3 +1,3 @@
-# Task TASK-003: Define shell adapter interfaces (ARCHIVED)
+# Task TASK-004: Implement ConfigurationLoader (ARCHIVED)
 
-This task's context has been archived to `context/completed/TASK-003/`.
+This task's context and artifacts have been archived to `context/completed/TASK-004/`.

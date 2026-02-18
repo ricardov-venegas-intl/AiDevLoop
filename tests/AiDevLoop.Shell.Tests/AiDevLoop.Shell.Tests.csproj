@@ -11,5 +11,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AiDevLoop.Shell\AiDevLoop.Shell.csproj" />
+    <ProjectReference Include="..\..\src\AiDevLoop.Cli\AiDevLoop.Cli.csproj" />
   </ItemGroup>
 </Project>
