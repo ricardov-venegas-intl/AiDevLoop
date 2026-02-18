@@ -169,46 +169,48 @@ Format: `task/TASK-001-Create-solution-and-project-structure` (task number and k
    - Create local branch: `git checkout -b task/{task-name}` from main
 
 3. **Implement Task**
-   - Before coding: Re-read relevant sections of @docs/architecture.md and @docs/requirements.md
-   - Follow @docs/coding-style.md throughout
-   - Build frequently: `dotnet build -warnaserror`
-   - Run tests: `dotnet test`
-   - Document implementation in @./context/implementation-notes.md as you work
-   - Include: Decisions, known limitations, risk areas, dependencies, testing notes
+   - Invoke `dotnet-task-coder` agent with `@./context/current-task.md` as input.
+   - The agent will:
+     - Read the task definition from `@./context/current-task.md`.
+     - Implement the required C# code, following all project conventions from `@docs/architecture.md`, `@docs/requirements.md`, and `@docs/coding-style.md`.
+     - Build and test the code (`dotnet build`, `dotnet test`).
+     - Document its work in `@./context/implementation-notes.md`.
 
-4. **Code Review (Iterative)**
-   - Invoke dotnet-code-reviewer agent
-   - Agent should read: implementation-notes.md, requirements.md, architecture.md
-   - Agent saves review report to @./context/review.md
-   - Categorize issues: Blocking | Non-Blocking | Nitpicks
-   - **If blocking issues:** Fix and repeat review (max 3 iterations)
-   - **If no blocking issues:** Proceed to step 5
+4. **Code Review & Refinement (Iterative Loop)**
+   - **Review**: Invoke the `dotnet-code-reviewer` agent.
+     - **Input**: The agent will read the changed files, plus `@./context/implementation-notes.md`, `@docs/requirements.md`, and `@docs/architecture.md`.
+     - **Output**: The agent saves its findings to `@./context/review.md`, categorizing issues as `Blocking`, `Non-Blocking`, or `Nitpicks`.
+   - **Analyze & Refine**:
+     - Read `@./context/review.md`.
+     - **If `Blocking` issues exist**:
+       - Invoke the `dotnet-task-coder` agent again to fix the issues.
+       - **Input**: Provide the original `@./context/current-task.md` and the new `@./context/review.md` as context.
+       - Repeat the review/refine loop (max 3 iterations).
+     - **If no `Blocking` issues exist**: Proceed to the next step.
 
-5. **User Verification**
-   - Present summary of changes
-   - Ask user approval before committing
-
-6. **Update Plan**
+5. **Update Plan**
    - In @docs/implementation-plan.md, mark this task's milestone list item as complete (change `- [ ] TASK-XXX · ...` to `- [x] TASK-XXX · ...`).
    - In the task definition section for this task, update the `**Status:**` field to reflect completion (for example, `**Status:** Completed`).
    - Ensure all relevant checkboxes within the completed task's details (steps, acceptance criteria, etc.) are checked as appropriate.
 
-7. **Archive Context Files**
+6. **Archive Context Files**
    - Create folder under @./context/completed named `{TASK-ID}` (e.g., `TASK-001`)
    - Move these files to the completed task folder:
      - @./context/current-task.md
      - @./context/implementation-notes.md
      - @./context/review.md
 
-8. **No Commit Yet**
-   - User must explicitly approve before running `git commit`
+7. **Request User Verification to Commit**
+   - Present a summary of the changes made.
+   - Ask for user approval before committing.
+   - User must explicitly approve before running `git commit`.
 
-9. **Create Pull Request**
+8. **Create Pull Request**
    - Once user approves, commit all changes with appropriate commit message
    - Push branch to remote
    - Create PR targeting main branch with summary of changes and test plan
 
-10. **Stop**
+9. **Stop**
    - Task complete — do not proceed to next task without explicit user request
 </approach>
 

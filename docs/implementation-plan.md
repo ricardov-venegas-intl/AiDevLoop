@@ -21,14 +21,14 @@
 ## Milestone 4 — Core Business Logic
 
 - [ ] TASK-010 · Simple · Implement ValidationEngine
-- [ ] TASK-011 · Medium · Implement ReviewAnalyzer
+- [ ] TASK-011 · Simple · Implement ReviewAnalyzer
 - [ ] TASK-012 · Simple · Implement PromptBuilder
 - [ ] TASK-013 · Trivial · Implement CommitMessageBuilder
 - [ ] TASK-014 · Simple · Implement StateManager
 
 ## Milestone 5 — I/O Adapters
 
-- [ ] TASK-015 · Medium · Implement FileOperations with atomic writes
+- [ ] TASK-015 · Simple · Implement FileOperations with atomic writes
 - [ ] TASK-016 · Simple · Implement ProcessRunner
 - [ ] TASK-017 · Simple · Implement ConsoleIO with output modes
 - [ ] TASK-018 · Simple · Implement Claude LLM Client
@@ -39,18 +39,22 @@
 
 - [ ] TASK-021 · Simple · Implement project validation
 - [ ] TASK-022 · Simple · Add default prompt templates as embedded resources
-- [ ] TASK-023 · Medium · Implement TaskOrchestrator steps 1-3
+- [ ] TASK-023 · Simple · Implement TaskOrchestrator skeleton and steps 1-2
+- [ ] TASK-023a · Simple · Implement TaskOrchestrator step 3 (LLM implementation)
 - [ ] TASK-024 · Simple · Implement TaskOrchestrator step 4
 - [ ] TASK-025 · Medium · Implement TaskOrchestrator step 5
-- [ ] TASK-026 · Medium · Implement TaskOrchestrator steps 6-8
-- [ ] TASK-027 · Medium · Implement resume command
+- [ ] TASK-026 · Simple · Implement TaskOrchestrator steps 6-7
+- [ ] TASK-026a · Simple · Implement TaskOrchestrator step 8 (commit with user approval)
+- [ ] TASK-027 · Simple · Implement resume command
 
 ## Milestone 7 — Entry Point, Polish & Distribution
 
 - [ ] TASK-028 · Simple · Wire Program.cs entry point with DI
 - [ ] TASK-029 · Simple · Add help system and version display
 - [ ] TASK-030 · Trivial · Configure single-file executable publishing
-- [ ] TASK-031 · Medium · End-to-end integration tests
+- [ ] TASK-031 · Simple · E2E test fixtures and helpers
+- [ ] TASK-031a · Simple · E2E happy path and failure tests
+- [ ] TASK-031b · Simple · E2E resume tests
 
 ---
 
@@ -566,7 +570,7 @@ A pure function that analyzes a list of `CommandResult` objects from validation 
 
 **Milestone:** 4 — Core Business Logic
 **Status:** pending
-**Complexity:** Medium
+**Complexity:** Simple
 **Depends on:** TASK-002
 
 ### What to build
@@ -744,7 +748,7 @@ A pure function that determines the resume point based on which context files ex
 
 **Milestone:** 5 — I/O Adapters
 **Status:** pending
-**Complexity:** Medium
+**Complexity:** Simple
 **Depends on:** TASK-003
 
 ### What to build
@@ -1094,16 +1098,16 @@ Create the three default prompt template files (`implement-task.prompt.md`, `cod
 
 ---
 
-## TASK-023: Implement TaskOrchestrator steps 1-3
+## TASK-023: Implement TaskOrchestrator skeleton and steps 1-2
 
 **Milestone:** 6 — Orchestration & Commands
 **Status:** pending
-**Complexity:** Medium
-**Depends on:** TASK-003, TASK-008, TASK-012, TASK-022
+**Complexity:** Simple
+**Depends on:** TASK-003, TASK-008, TASK-022
 
 ### What to build
 
-Create the `TaskOrchestrator` class that coordinates the development loop. Implement steps 1 (Select Task), 2 (Load Task), and 3 (Implement). Step 1 loads the plan, parses it, and selects a task. Step 2 copies the task block to `context/current-task.md` and creates an `implementation-notes.md` template. Step 3 loads referenced files, builds the prompt, invokes the LLM agent, and updates task status to `in-progress`.
+Create the `TaskOrchestrator` class that coordinates the development loop. Implement steps 1 (Select Task) and 2 (Load Task). Step 1 loads the plan, parses it, and selects a task. Step 2 copies the task block to `context/current-task.md` and creates an `implementation-notes.md` template. This task establishes the orchestrator skeleton with its constructor, DI dependencies, and `RunAsync` entry point.
 
 ### Files in scope
 
@@ -1113,21 +1117,17 @@ Create the `TaskOrchestrator` class that coordinates the development loop. Imple
 ### Constraints
 
 - Constructor receives all adapter interfaces (`IFileOperations`, `IProcessRunner`, `ILLMClient`, `IGitClient`, `IConsoleIO`) plus `Configuration` via DI
+- Provide a `RunAsync(TaskId? taskId, CancellationToken)` entry point
 - Step 1: read plan via `IFileOperations`, parse via `MarkdownPlanParser`, select via `TaskSelector`
 - Step 2: write task block to `context/current-task.md`, create `context/implementation-notes.md` with the Context Handoff template headings (Decisions made, Risk areas, Known limitations)
-- Step 3: load all files from task's context references via `IFileOperations`, build prompt via `PromptBuilder`, invoke `ILLMClient.InvokeAsync`, update task status to `InProgress` via `PlanUpdater` + `IFileOperations`
 - Display progress via `IConsoleIO.WriteStep` (e.g., `[1/8] Select Task → TASK-005`)
 - Map core `SelectionError` variants to user-friendly error messages
-- Provide a `RunAsync(TaskId? taskId, CancellationToken)` entry point
 
 ### Validation criteria (Definition of Done)
 
 - [ ] Step 1 selects the correct task (auto or by ID)
 - [ ] Step 2 writes `current-task.md` with the full task block content
 - [ ] Step 2 creates `implementation-notes.md` with Context Handoff template
-- [ ] Step 3 loads all referenced docs and builds the correct prompt
-- [ ] Step 3 invokes the LLM agent with the built prompt
-- [ ] Task status updated to `in-progress` in `implementation-plan.md`
 - [ ] Progress displayed via `ConsoleIO` for each step
 - [ ] Core `SelectionError` variants produce user-friendly messages
 - [ ] No lint/type errors
@@ -1136,9 +1136,49 @@ Create the `TaskOrchestrator` class that coordinates the development loop. Imple
 
 - `docs/architecture.md#component-breakdown`
 - `docs/architecture.md#data-flow-pipeline`
-- `docs/architecture.md#llm-automation-model`
 - `docs/requirements.md#fr-4-task-execution`
 - `docs/LLM-Assisted-Development-Methodology.md#phase-2--development-loop-repeat-per-task`
+- `docs/coding-style.md`
+
+---
+
+## TASK-023a: Implement TaskOrchestrator step 3 (LLM implementation)
+
+**Milestone:** 6 — Orchestration & Commands
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** TASK-023, TASK-012
+
+### What to build
+
+Add step 3 (Implement) to the `TaskOrchestrator`. Load all files referenced in the task's context references, build the implementation prompt via `PromptBuilder`, invoke the LLM agent via `ILLMClient`, and update task status to `in-progress`.
+
+### Files in scope
+
+- `src/AiDevLoop.Shell/TaskOrchestrator.cs` (modify)
+- `tests/AiDevLoop.Shell.Tests/TaskOrchestratorTests.cs` (modify)
+
+### Constraints
+
+- Load all files from task's context references via `IFileOperations`
+- Build prompt via `PromptBuilder` with template + task content + loaded files
+- Invoke `ILLMClient.InvokeAsync` with the built prompt
+- Update task status to `InProgress` via `PlanUpdater` + `IFileOperations`
+- Display progress: `[3/8] Implement → invoking LLM agent`
+
+### Validation criteria (Definition of Done)
+
+- [ ] Loads all referenced docs and builds the correct prompt
+- [ ] Invokes the LLM agent with the built prompt
+- [ ] Task status updated to `in-progress` in `implementation-plan.md`
+- [ ] Progress displayed via `ConsoleIO`
+- [ ] No lint/type errors
+
+### Context references
+
+- `docs/architecture.md#data-flow-pipeline`
+- `docs/architecture.md#llm-automation-model`
+- `docs/requirements.md#fr-4-task-execution`
 - `docs/coding-style.md`
 
 ---
@@ -1148,7 +1188,7 @@ Create the `TaskOrchestrator` class that coordinates the development loop. Imple
 **Milestone:** 6 — Orchestration & Commands
 **Status:** pending
 **Complexity:** Simple
-**Depends on:** TASK-023, TASK-010
+**Depends on:** TASK-023a, TASK-010
 
 ### What to build
 
@@ -1242,16 +1282,16 @@ Add step 5 (Review Loop) to the `TaskOrchestrator`. Loop up to `maxReviewIterati
 
 ---
 
-## TASK-026: Implement TaskOrchestrator steps 6-8
+## TASK-026: Implement TaskOrchestrator steps 6-7
 
 **Milestone:** 6 — Orchestration & Commands
 **Status:** pending
-**Complexity:** Medium
-**Depends on:** TASK-025, TASK-009, TASK-013, TASK-020
+**Complexity:** Simple
+**Depends on:** TASK-025, TASK-009
 
 ### What to build
 
-Add steps 6 (Integration Check), 7 (Update Documentation), and 8 (Commit) to the `TaskOrchestrator`. Step 6 runs the full test suite and build. Step 7 archives context files and updates the plan. Step 8 displays the proposed commit message, pauses for mandatory user approval, then commits on approval or aborts on rejection.
+Add steps 6 (Integration Check) and 7 (Update Documentation) to the `TaskOrchestrator`. Step 6 runs the full test suite and build by reusing validation logic from step 4. Step 7 archives context files to `context/completed/{TASK-ID}/` and updates the plan status.
 
 ### Files in scope
 
@@ -1262,18 +1302,53 @@ Add steps 6 (Integration Check), 7 (Update Documentation), and 8 (Commit) to the
 
 - Step 6: run `test` and `build` commands from config via `IProcessRunner` — reuse validation logic from step 4
 - Step 7: archive `current-task.md`, `implementation-notes.md`, `review.md` to `context/completed/{TASK-ID}/` via `IFileOperations.ArchiveContextFiles`. Clean up context files after archiving.
-- Step 8: generate commit message via `CommitMessageBuilder`, display it via `IConsoleIO`, call `IConsoleIO.Confirm` for **mandatory** user approval, then `IGitClient.StageAllAsync` + `IGitClient.CommitAsync` on approval
-- Only update task status to `Done` (via `PlanUpdater` + `IFileOperations`) after a successful commit — if user rejects, task stays `InProgress`
-- On rejection at step 8: exit with code 1, do not revert archived files (they're useful for `resume`)
-- Step 8 is the single mandatory human checkpoint — never skip it
+- Display progress: `[6/8] Integration Check`, `[7/8] Update Documentation`
 
 ### Validation criteria (Definition of Done)
 
 - [ ] Step 6 runs full test suite and build commands
 - [ ] Step 7 archives all three context files to `completed/{TASK-ID}/`
 - [ ] Step 7 cleans up context files after archiving
-- [ ] Step 8 displays the proposed commit message
-- [ ] Step 8 pauses for mandatory user approval
+- [ ] Progress displayed via `ConsoleIO` for each step
+- [ ] No lint/type errors
+
+### Context references
+
+- `docs/requirements.md#fr-4-task-execution`
+- `docs/architecture.md#data-flow-pipeline`
+- `docs/coding-style.md`
+
+---
+
+## TASK-026a: Implement TaskOrchestrator step 8 (commit with user approval)
+
+**Milestone:** 6 — Orchestration & Commands
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** TASK-026, TASK-013, TASK-020
+
+### What to build
+
+Add step 8 (Commit) to the `TaskOrchestrator`. Generate the commit message via `CommitMessageBuilder`, display it to the user, pause for mandatory approval, then stage and commit on approval or abort on rejection. This is the single mandatory human checkpoint — it must never be skipped.
+
+### Files in scope
+
+- `src/AiDevLoop.Shell/TaskOrchestrator.cs` (modify)
+- `tests/AiDevLoop.Shell.Tests/TaskOrchestratorTests.cs` (modify)
+
+### Constraints
+
+- Generate commit message via `CommitMessageBuilder`
+- Display proposed commit message via `IConsoleIO`
+- Call `IConsoleIO.Confirm` for **mandatory** user approval
+- On approval: `IGitClient.StageAllAsync` + `IGitClient.CommitAsync`, then update task status to `Done` via `PlanUpdater` + `IFileOperations`
+- On rejection: exit with code 1, task stays `InProgress`, do not revert archived files (useful for `resume`)
+- Step 8 is the single mandatory human checkpoint — never skip it
+
+### Validation criteria (Definition of Done)
+
+- [ ] Displays the proposed commit message
+- [ ] Pauses for mandatory user approval
 - [ ] Commits on user approval, task marked `Done` after commit
 - [ ] Aborts on user rejection, task stays `InProgress`
 - [ ] Exit code 1 on rejection, exit code 0 on success
@@ -1292,8 +1367,8 @@ Add steps 6 (Integration Check), 7 (Update Documentation), and 8 (Commit) to the
 
 **Milestone:** 6 — Orchestration & Commands
 **Status:** pending
-**Complexity:** Medium
-**Depends on:** TASK-014, TASK-023
+**Complexity:** Simple
+**Depends on:** TASK-014, TASK-023a
 
 ### What to build
 
@@ -1340,7 +1415,7 @@ Add resume functionality to the `TaskOrchestrator`. Check for `context/current-t
 **Milestone:** 7 — Entry Point, Polish & Distribution
 **Status:** pending
 **Complexity:** Simple
-**Depends on:** TASK-005, TASK-006, TASK-021, TASK-026, TASK-027
+**Depends on:** TASK-005, TASK-006, TASK-021, TASK-026a, TASK-027
 
 ### What to build
 
@@ -1475,45 +1550,128 @@ Configure the Cli project for single-file self-contained publishing. Set the ass
 
 ---
 
-## TASK-031: End-to-end integration tests
+## TASK-031: E2E test fixtures and helpers
 
 **Milestone:** 7 — Entry Point, Polish & Distribution
 **Status:** pending
-**Complexity:** Medium
+**Complexity:** Simple
 **Depends on:** TASK-028
 
 ### What to build
 
-End-to-end tests that run the full tool against a fixture project with a known `implementation-plan.md`. Verify the complete happy path (select → implement → validate → review → commit), failure handling (validation failure prompts), and resume flow (interrupted task resumes correctly). Use mock LLM responses to avoid external dependencies.
+Create the shared infrastructure for end-to-end tests: fixture project files (minimal `implementation-plan.md` with at least two tasks and a dependency relationship, stub Phase 1 docs, config), mock implementations (`MockLLMClient`, `MockProcessRunner`, `MockConsoleIO`), and a test base class that sets up/tears down temporary directories with git repos.
 
 ### Files in scope
 
-- `tests/AiDevLoop.E2E.Tests/RunCommandTests.cs` (create)
-- `tests/AiDevLoop.E2E.Tests/ResumeCommandTests.cs` (create)
-- `tests/AiDevLoop.E2E.Tests/ErrorHandlingTests.cs` (create)
 - `tests/AiDevLoop.E2E.Tests/Fixtures/docs/requirements.md` (create)
 - `tests/AiDevLoop.E2E.Tests/Fixtures/docs/architecture.md` (create)
 - `tests/AiDevLoop.E2E.Tests/Fixtures/docs/implementation-plan.md` (create)
 - `tests/AiDevLoop.E2E.Tests/Fixtures/.aidevloop.json` (create)
 - `tests/AiDevLoop.E2E.Tests/Helpers/MockLLMClient.cs` (create)
+- `tests/AiDevLoop.E2E.Tests/Helpers/MockProcessRunner.cs` (create)
+- `tests/AiDevLoop.E2E.Tests/Helpers/MockConsoleIO.cs` (create)
+- `tests/AiDevLoop.E2E.Tests/Helpers/E2ETestBase.cs` (create)
 
 ### Constraints
 
 - Each test creates a temporary directory with the fixture structure
 - Initialize a real git repo (`git init`) in the temp directory for commit tests
-- Use a mock `ILLMClient` that returns predetermined responses (no actual LLM calls)
-- Use mock `IProcessRunner` for validation commands (configurable pass/fail)
+- `MockLLMClient` returns predetermined responses (no actual LLM calls)
+- `MockProcessRunner` supports configurable pass/fail per command
+- `MockConsoleIO` captures output and provides scripted user responses
 - Clean up all temp directories after tests (use `IDisposable` pattern or test cleanup)
 - Fixture `implementation-plan.md` has at least two tasks with a dependency relationship
-- Tests must be deterministic and runnable in CI without external tools
+- All helpers must be deterministic and runnable in CI without external tools
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Happy path test: task selected, implemented, validated, reviewed, committed — exit code 0
-- [ ] Failure path test: validation failure triggers user prompt, abort returns exit code 1
-- [ ] Resume path test: interrupted task resumes from correct step
+- [ ] Fixture files create a valid project structure
+- [ ] `MockLLMClient` returns configured responses
+- [ ] `MockProcessRunner` returns configured results per command
+- [ ] `MockConsoleIO` captures output and provides scripted input
+- [ ] `E2ETestBase` sets up temp directory with git repo and cleans up after
+- [ ] No lint/type errors
+
+### Context references
+
+- `docs/architecture.md#testing-strategy`
+- `docs/requirements.md#acceptance-criteria`
+- `docs/coding-style.md`
+
+---
+
+## TASK-031a: E2E happy path and failure tests
+
+**Milestone:** 7 — Entry Point, Polish & Distribution
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** TASK-031
+
+### What to build
+
+End-to-end tests covering the happy path (full run: select → implement → validate → review → commit) and failure scenarios (validation failure prompts, missing mandatory docs). Use the fixtures and helpers from TASK-031.
+
+### Files in scope
+
+- `tests/AiDevLoop.E2E.Tests/RunCommandTests.cs` (create)
+- `tests/AiDevLoop.E2E.Tests/ErrorHandlingTests.cs` (create)
+
+### Constraints
+
+- Happy path test: task selected, implemented, validated, reviewed, committed — verify exit code 0
+- Failure path test: validation failure triggers user prompt, abort returns exit code 1
+- Missing mandatory docs test: returns exit code 2
+- Context files archived correctly after task completion
+- All tests use mock implementations from TASK-031 helpers
+
+### Validation criteria (Definition of Done)
+
+- [ ] Happy path test: task completed end-to-end — exit code 0
+- [ ] Failure path test: validation failure triggers prompt, abort returns exit code 1
 - [ ] Missing mandatory docs test: returns exit code 2
 - [ ] Context files archived correctly after task completion
+- [ ] All tests pass deterministically without external dependencies
+- [ ] No lint/type errors
+
+### Context references
+
+- `docs/architecture.md#testing-strategy`
+- `docs/requirements.md#acceptance-criteria`
+- `docs/coding-style.md`
+
+---
+
+## TASK-031b: E2E resume tests
+
+**Milestone:** 7 — Entry Point, Polish & Distribution
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** TASK-031
+
+### What to build
+
+End-to-end tests covering the resume flow: simulate an interrupted task (pre-populate context files at various stages), run resume, and verify execution continues from the correct step. Use the fixtures and helpers from TASK-031.
+
+### Files in scope
+
+- `tests/AiDevLoop.E2E.Tests/ResumeCommandTests.cs` (create)
+
+### Constraints
+
+- Test resume from step 3 (only `current-task.md` exists)
+- Test resume from step 4 (`implementation-notes.md` exists)
+- Test resume from step 6 (`review.md` exists)
+- Test `--from-step=N` override
+- Test error when no task in progress (no `current-task.md`)
+- All tests use mock implementations from TASK-031 helpers
+
+### Validation criteria (Definition of Done)
+
+- [ ] Resume from step 3 works correctly
+- [ ] Resume from step 4 works correctly
+- [ ] Resume from step 6 works correctly
+- [ ] `--from-step` override works correctly
+- [ ] Error returned when no task in progress
 - [ ] All tests pass deterministically without external dependencies
 - [ ] No lint/type errors
 
