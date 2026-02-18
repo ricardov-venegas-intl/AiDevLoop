@@ -4,7 +4,7 @@
 
 - [x] TASK-001 · Trivial · Create solution and project structure
 - [x] TASK-002 · Simple · Define core domain types
-- [ ] TASK-003 · Simple · Define shell adapter interfaces
+- [x] TASK-003 · Simple · Define shell adapter interfaces
 
 ## Milestone 2 — Configuration & CLI Parsing
 
@@ -197,7 +197,7 @@ Create all domain types for the functional core: the `Result<TValue, TError>` di
 ## TASK-003: Define shell adapter interfaces
 
 **Milestone:** 1 — Project Scaffolding & Domain Model
-**Status:** pending
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-002
 

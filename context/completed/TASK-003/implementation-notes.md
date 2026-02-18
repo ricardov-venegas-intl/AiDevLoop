@@ -1,6 +1,4 @@
-# Implementation Notes: TASK-003 (ARCHIVED)
-
-This document has been archived to `context/completed/TASK-003/implementation-notes.md`.
+# Implementation Notes: TASK-003
 
 ## Overview
 

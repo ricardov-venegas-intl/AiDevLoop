@@ -1,6 +1,4 @@
-# Code Review: TASK-003 (ARCHIVED)
-
-This review has been archived to `context/completed/TASK-003/review.md`.
+# Code Review: TASK-003 - Shell Adapter Interfaces
 
 **Review Date:** 2026-02-18  
 **Reviewer:** AI Code Review Agent  
