@@ -114,7 +114,7 @@ Create the .NET 10.0 solution with three source projects (AiDevLoop.Cli, AiDevLo
 ## TASK-002: Define core domain types
 
 **Milestone:** 1 — Project Scaffolding & Domain Model
-**Status:** Completed
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-001
 
