@@ -1,7 +1,7 @@
-# Implementation Notes: TASK-002 (ARCHIVED)
+# Implementation Notes: Task TASK-002
 
-This document has been archived to `context/completed/TASK-002/implementation-notes.md`.
-
+## Task Name
+Define core domain types
 
 ## Decisions Made
 

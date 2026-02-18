@@ -3,7 +3,7 @@
 ## Milestone 1 — Project Scaffolding & Domain Model
 
 - [x] TASK-001 · Trivial · Create solution and project structure
-- [ ] TASK-002 · Simple · Define core domain types
+- [x] TASK-002 · Simple · Define core domain types
 - [ ] TASK-003 · Simple · Define shell adapter interfaces
 
 ## Milestone 2 — Configuration & CLI Parsing
@@ -114,7 +114,7 @@ Create the .NET 10.0 solution with three source projects (AiDevLoop.Cli, AiDevLo
 ## TASK-002: Define core domain types
 
 **Milestone:** 1 — Project Scaffolding & Domain Model
-**Status:** pending
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-001
 
@@ -174,14 +174,14 @@ Create all domain types for the functional core: the `Result<TValue, TError>` di
 
 ### Validation criteria (Definition of Done)
 
-- [ ] All domain types compile with zero nullable warnings
-- [ ] `Result<T, TError>` supports `Ok` and `Err` cases with pattern matching via `switch` expressions
-- [ ] Record equality works correctly for `TaskId` value objects
-- [ ] `SelectionError` discriminated union has all four variants
-- [ ] `Configuration.Default` factory returns config matching FR-3.2 defaults
-- [ ] All collection properties use `IReadOnlyList<T>`
-- [ ] Unit tests verify `Result` pattern matching and `TaskId` equality
-- [ ] No lint/type errors
+- [x] All domain types compile with zero nullable warnings
+- [x] `Result<T, TError>` supports `Ok` and `Err` cases with pattern matching via `switch` expressions
+- [x] Record equality works correctly for `TaskId` value objects
+- [x] `SelectionError` discriminated union has all four variants
+- [x] `Configuration.Default` factory returns config matching FR-3.2 defaults
+- [x] All collection properties use `IReadOnlyList<T>`
+- [x] Unit tests verify `Result` pattern matching and `TaskId` equality
+- [x] No lint/type errors
 
 ### Context references
 

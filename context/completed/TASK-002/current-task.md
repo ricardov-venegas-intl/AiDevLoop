@@ -1,7 +1,7 @@
-# Task TASK-002: Define core domain types (ARCHIVED)
+# Task TASK-002: Define core domain types
 
-This task's context has been archived to `context/completed/TASK-002/`.
-
+## Description
+Create all domain types for the functional core: the `Result<TValue, TError>` discriminated union, value objects (`TaskId`, enums for `TaskStatus`, `Complexity`, `IssueClassification`, `Command`), data records (`TaskDefinition`, `Plan`, `Milestone`, `FileReference`, `CommandResult`, `ValidationResult`, `ReviewIssue`, `ReviewResult`, `ResumeState`, `CommandLineArgs`, `CommandLineOptions`, `Configuration`, `PathsConfiguration`, `ValidationConfiguration`, `GitStatus`), and error discriminated unions (`SelectionError` with `TaskNotFound`, `DependenciesNotMet`, `TaskNotPending`, `NoPendingTasks` variants). Each type gets its own file under `Domain/`.
 
 ## Definition of Done
 - [ ] All domain types compile with zero nullable warnings
