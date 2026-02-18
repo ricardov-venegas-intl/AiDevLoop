@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>AiDevLoop.Cli</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AiDevLoop.Core\AiDevLoop.Core.csproj" />
+    <ProjectReference Include="..\AiDevLoop.Shell\AiDevLoop.Shell.csproj" />
+  </ItemGroup>
+</Project>

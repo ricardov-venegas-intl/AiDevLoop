@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>AiDevLoop.Core</AssemblyName>
+    <!-- TargetFramework, Nullable and ImplicitUsings are set in Directory.Build.props -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+</Project>

@@ -21,14 +21,4 @@ This agent is responsible for the actual coding. It takes a task definition and 
 
 This agent acts as a senior C# code reviewer. It analyzes code for adherence to project standards, best practices, and overall quality, providing feedback categorized into blocking issues, non-blocking suggestions, and nitpicks.
 
-## How to Run
 
-The primary entry point for the automated workflow is the `current-task-runner` agent. To start the process, you invoke this agent.
-
-The specific command to run the agent will depend on the CLI tool that interprets these agent files. Assuming a hypothetical `agent-runner` CLI, the command would be:
-
-```bash
-agent-runner ./.github/agents/current-task-runner.agent.md
-```
-
-This will kick off the entire automated task implementation process.
