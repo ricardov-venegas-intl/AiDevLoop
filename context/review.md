@@ -1,7 +1,7 @@
 # Code Review Report: TASK-002 (ARCHIVED)
 
 This review has been archived to `context/completed/TASK-002/review.md`.
- The functional core remains pure with zero I/O dependencies. All types compile clean with `-warnaserror` and all 13 tests pass.
+The functional core remains pure with zero I/O dependencies. All types compile clean with `-warnaserror` and all 13 tests pass.
 
 ## Issues Found
 
