@@ -3,7 +3,7 @@ namespace AiDevLoop.Core.Domain;
 /// <summary>
 /// A snapshot of the current git repository status.
 /// </summary>
-/// <param name="HasUncommittedChanges">
+/// <param name="HasStagedChanges">
 /// <see langword="true"/> when there are staged changes that have not yet been committed.
 /// </param>
 /// <param name="HasUnstagedChanges">
@@ -11,6 +11,6 @@ namespace AiDevLoop.Core.Domain;
 /// </param>
 /// <param name="ModifiedFiles">The relative paths of all modified files in the working directory.</param>
 public record GitStatus(
-    bool HasUncommittedChanges,
+    bool HasStagedChanges,
     bool HasUnstagedChanges,
     IReadOnlyList<string> ModifiedFiles);

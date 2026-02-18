@@ -1,3 +1,5 @@
+using System.Collections.ObjectModel;
+
 namespace AiDevLoop.Core.Domain;
 
 /// <summary>
@@ -31,6 +33,6 @@ public record Configuration(
             Prompts: "prompts"),
         Validation: new ValidationConfiguration(
             MaxReviewIterations: 3,
-            Commands: new Dictionary<string, string>()),
+            Commands: new ReadOnlyDictionary<string, string>(new Dictionary<string, string>())),
         Verbose: false);
 }

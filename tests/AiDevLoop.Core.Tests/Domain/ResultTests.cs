@@ -13,17 +13,17 @@ public class ResultTests
     // -----------------------------------------------------------------------
 
     /// <summary>
-    /// An <see cref="Ok{TValue,TError}"/> result can be matched via a switch expression.
+    /// An <see cref="Result{TValue,TError}.Ok"/> result can be matched via a switch expression.
     /// </summary>
     [Fact]
     public void Ok_result_matches_Ok_arm_in_switch_expression()
     {
-        Result<int, string> result = new Ok<int, string>(42);
+        Result<int, string> result = new Result<int, string>.Ok(42);
 
         var output = result switch
         {
-            Ok<int, string> ok => ok.Value,
-            Err<int, string> err => -1,
+            Result<int, string>.Ok ok => ok.Value,
+            Result<int, string>.Err err => -1,
             _ => throw new InvalidOperationException("Unexpected case"),
         };
 
@@ -31,17 +31,17 @@ public class ResultTests
     }
 
     /// <summary>
-    /// An <see cref="Err{TValue,TError}"/> result can be matched via a switch expression.
+    /// An <see cref="Result{TValue,TError}.Err"/> result can be matched via a switch expression.
     /// </summary>
     [Fact]
     public void Err_result_matches_Err_arm_in_switch_expression()
     {
-        Result<int, string> result = new Err<int, string>("something went wrong");
+        Result<int, string> result = new Result<int, string>.Err("something went wrong");
 
         var output = result switch
         {
-            Ok<int, string> ok => "ok",
-            Err<int, string> err => err.Error,
+            Result<int, string>.Ok ok => "ok",
+            Result<int, string>.Err err => err.Error,
             _ => throw new InvalidOperationException("Unexpected case"),
         };
 
@@ -49,49 +49,49 @@ public class ResultTests
     }
 
     /// <summary>
-    /// Two <see cref="Ok{TValue,TError}"/> results with the same value are equal.
+    /// Two <see cref="Result{TValue,TError}.Ok"/> results with the same value are equal.
     /// </summary>
     [Fact]
     public void Ok_results_with_same_value_are_equal()
     {
-        var a = new Ok<int, string>(10);
-        var b = new Ok<int, string>(10);
+        var a = new Result<int, string>.Ok(10);
+        var b = new Result<int, string>.Ok(10);
 
         Assert.Equal(a, b);
     }
 
     /// <summary>
-    /// Two <see cref="Ok{TValue,TError}"/> results with different values are not equal.
+    /// Two <see cref="Result{TValue,TError}.Ok"/> results with different values are not equal.
     /// </summary>
     [Fact]
     public void Ok_results_with_different_values_are_not_equal()
     {
-        var a = new Ok<int, string>(10);
-        var b = new Ok<int, string>(20);
+        var a = new Result<int, string>.Ok(10);
+        var b = new Result<int, string>.Ok(20);
 
         Assert.NotEqual(a, b);
     }
 
     /// <summary>
-    /// Two <see cref="Err{TValue,TError}"/> results with the same error are equal.
+    /// Two <see cref="Result{TValue,TError}.Err"/> results with the same error are equal.
     /// </summary>
     [Fact]
     public void Err_results_with_same_error_are_equal()
     {
-        var a = new Err<int, string>("error");
-        var b = new Err<int, string>("error");
+        var a = new Result<int, string>.Err("error");
+        var b = new Result<int, string>.Err("error");
 
         Assert.Equal(a, b);
     }
 
     /// <summary>
-    /// An <see cref="Ok{TValue,TError}"/> result is not equal to an <see cref="Err{TValue,TError}"/> result.
+    /// An <see cref="Result{TValue,TError}.Ok"/> result is not equal to an <see cref="Result{TValue,TError}.Err"/> result.
     /// </summary>
     [Fact]
     public void Ok_and_Err_are_not_equal()
     {
-        Result<int, string> ok = new Ok<int, string>(0);
-        Result<int, string> err = new Err<int, string>("error");
+        Result<int, string> ok = new Result<int, string>.Ok(0);
+        Result<int, string> err = new Result<int, string>.Err("error");
 
         Assert.NotEqual(ok, err);
     }

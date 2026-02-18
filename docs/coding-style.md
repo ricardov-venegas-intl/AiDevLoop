@@ -26,7 +26,9 @@ The general rule we follow is "use Visual Studio defaults". The repository's `.e
     - Braces may be omitted only if the body of every block in the compound `if`/`else if`/.../`else` is on a single line.
 19. Make internal and private types `static` or `sealed` unless derivation is required.
 20. Primary constructor parameters should use `camelCase` (no `_` prefix). Assign to `_`-prefixed fields only when appropriate for larger types where explicit field assignment improves clarity.
-21. Each type should be declared in its own file. Do not define multiple top-level or sibling types in a single source file; the only common exception is small, private or nested helper types that are tightly coupled to the containing type and improve readability.
+21. Each type should be declared in its own file. Do not define multiple top-level or sibling types in a single source file. Exceptions:
+    - Small, private or nested helper types that are tightly coupled to the containing type and improve readability.
+    - Discriminated union hierarchies (an abstract base record and its sealed variant records) may be co-located in a single file when the variants are tightly coupled and form a closed set of cases for pattern matching.
 
 ## C# Best Practices
 
@@ -34,7 +36,7 @@ The general rule we follow is "use Visual Studio defaults". The repository's `.e
 - Always generate XML documentation
 - Use TimeProvider instead of DateTime.Now and DateTime.UtcNow
 - Always use LINQ method syntax; never use LINQ query syntax.
-- Each type should have its own file. Do not have multiple types defined in a single file.
+- Each type should have its own file. Do not have multiple types defined in a single file. Exception: discriminated union hierarchies (abstract base + sealed variants) may be co-located when they form a closed set for pattern matching.
 - Use `record` for DTOs, messages, and domain entities
 - Use `readonly record struct` for value objects
 - Leverage pattern matching with `switch` expressions
