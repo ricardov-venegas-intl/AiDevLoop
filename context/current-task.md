@@ -1,4 +1,3 @@
-# Task TASK-008: Implement TaskSelector (ARCHIVED)
+# Task TASK-009: Implement PlanUpdater (ARCHIVED)
 
-This task's context and artifacts have been archived to `context/completed/TASK-008/`.
-
+This task's context and artifacts have been archived to `context/completed/TASK-009/`.

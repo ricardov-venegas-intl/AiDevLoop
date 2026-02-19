@@ -16,7 +16,7 @@
 
 - [x] TASK-007 · Medium · Implement MarkdownPlanParser
 - [x] TASK-008 · Simple · Implement TaskSelector
-- [ ] TASK-009 · Simple · Implement PlanUpdater
+- [x] TASK-009 · Simple · Implement PlanUpdater
 
 ## Milestone 4 — Core Business Logic
 
@@ -485,7 +485,7 @@ A pure function that selects the next task to execute from a `Plan`. If no task 
 ## TASK-009: Implement PlanUpdater
 
 **Milestone:** 3 — Plan Parsing & Task Management
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-007
 
