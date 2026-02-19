@@ -15,7 +15,7 @@
 ## Milestone 3 — Plan Parsing & Task Management
 
 - [x] TASK-007 · Medium · Implement MarkdownPlanParser
-- [ ] TASK-008 · Simple · Implement TaskSelector
+- [x] TASK-008 · Simple · Implement TaskSelector
 - [ ] TASK-009 · Simple · Implement PlanUpdater
 
 ## Milestone 4 — Core Business Logic
@@ -438,7 +438,7 @@ A pure function that parses the content of an `implementation-plan.md` file into
 ## TASK-008: Implement TaskSelector
 
 **Milestone:** 3 — Plan Parsing & Task Management
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-007
 
@@ -465,14 +465,14 @@ A pure function that selects the next task to execute from a `Plan`. If no task 
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Auto-selects first pending task when all its dependencies are done
-- [ ] Skips tasks with unsatisfied dependencies during auto-select
-- [ ] Selects specific task by ID when provided
-- [ ] Returns `TaskNotFound` for non-existent task ID
-- [ ] Returns `TaskNotPending` when task is already `Done` or `InProgress`
-- [ ] Returns `DependenciesNotMet` with the list of unsatisfied dependency IDs
-- [ ] Returns `NoPendingTasks` when no eligible tasks remain
-- [ ] No lint/type errors
+- [x] Auto-selects first pending task when all its dependencies are done
+- [x] Skips tasks with unsatisfied dependencies during auto-select
+- [x] Selects specific task by ID when provided
+- [x] Returns `TaskNotFound` for non-existent task ID
+- [x] Returns `TaskNotPending` when task is already `Done` or `InProgress`
+- [x] Returns `DependenciesNotMet` with the list of unsatisfied dependency IDs
+- [x] Returns `NoPendingTasks` when no eligible tasks remain
+- [x] No lint/type errors
 
 ### Context references
 
