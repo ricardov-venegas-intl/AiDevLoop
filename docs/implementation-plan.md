@@ -509,12 +509,12 @@ A pure function that updates task status in the raw markdown content of `impleme
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Changes checkbox from `[ ]` to `[x]` when marking as `Done`
-- [ ] Changes checkbox from `[x]` to `[ ]` when marking as `InProgress` or `Pending`
-- [ ] Updates `**Status:**` field text in the task definition block
-- [ ] Preserves all other document content unchanged
-- [ ] Handles task at any position in the document (first, middle, last)
-- [ ] No lint/type errors
+- [x] Changes checkbox from `[ ]` to `[x]` when marking as `Done`
+- [x] Changes checkbox from `[x]` to `[ ]` when marking as `InProgress` or `Pending`
+- [x] Updates `**Status:**` field text in the task definition block
+- [x] Preserves all other document content unchanged
+- [x] Handles task at any position in the document (first, middle, last)
+- [x] No lint/type errors
 
 ### Context references
 

@@ -132,6 +132,20 @@ public class TaskSelectorTests
     }
 
     [Fact]
+    public void AutoSelect_within_milestone_selects_in_task_id_order_not_definition_order()
+    {
+        var t1 = MakeTask("T-001", TaskStatus.Pending);
+        var t2 = MakeTask("T-002", TaskStatus.Pending);
+        // t2 is defined first in the list, but T-001 should be selected (task ID order)
+        var plan = SingleMilestonePlan(t2, t1);
+
+        var result = TaskSelector.SelectTask(plan, null);
+
+        var ok = Assert.IsType<Result<TaskDefinition, SelectionError>.Ok>(result);
+        Assert.Equal(Id("T-001"), ok.Value.Id);
+    }
+
+    [Fact]
     public void AutoSelect_returns_NoPendingTasks_when_all_pending_have_unsatisfied_deps()
     {
         var t1 = MakeTask("T-001", TaskStatus.Pending, dependsOn: ["T-002"]);
@@ -214,6 +228,20 @@ public class TaskSelectorTests
     }
 
     [Fact]
+    public void ExplicitSelect_returns_TaskNotPending_when_task_is_blocked()
+    {
+        var t1 = MakeTask("T-001", TaskStatus.Blocked);
+        var plan = SingleMilestonePlan(t1);
+
+        var result = TaskSelector.SelectTask(plan, Id("T-001"));
+
+        var err = Assert.IsType<Result<TaskDefinition, SelectionError>.Err>(result);
+        var notPending = Assert.IsType<TaskNotPending>(err.Error);
+        Assert.Equal(Id("T-001"), notPending.Id);
+        Assert.Equal(TaskStatus.Blocked, notPending.CurrentStatus);
+    }
+
+    [Fact]
     public void ExplicitSelect_returns_DependenciesNotMet_with_unsatisfied_dep_ids()
     {
         var t1 = MakeTask("T-001", TaskStatus.Pending);
@@ -242,5 +270,7 @@ public class TaskSelectorTests
         var err = Assert.IsType<Result<TaskDefinition, SelectionError>.Err>(result);
         var depsNotMet = Assert.IsType<DependenciesNotMet>(err.Error);
         Assert.Equal(2, depsNotMet.Unsatisfied.Count);
+        Assert.Contains(Id("T-001"), depsNotMet.Unsatisfied);
+        Assert.Contains(Id("T-002"), depsNotMet.Unsatisfied);
     }
 }
