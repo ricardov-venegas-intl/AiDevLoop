@@ -31,7 +31,7 @@
 - [x] TASK-015 · Simple · Implement FileOperations with atomic writes
 - [x] TASK-016 · Simple · Implement ProcessRunner
 - [x] TASK-017 · Simple · Implement ConsoleIO with output modes
-- [ ] TASK-018 · Simple · Implement Claude LLM Client
+- [x] TASK-018 · Simple · Implement Claude LLM Client
 - [ ] TASK-019 · Simple · Implement Copilot LLM Client
 - [ ] TASK-020 · Simple · Implement GitClient
 
@@ -879,7 +879,7 @@ Concrete implementation of `IConsoleIO`. Display output respecting three modes: 
 ## TASK-018: Implement Claude LLM Client
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003, TASK-016
 
@@ -903,13 +903,13 @@ Implement `ILLMClient` for the Anthropic Claude CLI. Construct the `claude` comm
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Constructs correct `claude` CLI command
-- [ ] Passes prompt content to the CLI tool
-- [ ] Captures LLM response from stdout
-- [ ] Returns error when CLI returns non-zero exit code
-- [ ] Returns error for empty LLM output
-- [ ] Uses `IProcessRunner` for process execution (testable with mock)
-- [ ] No lint/type errors
+- [x] Constructs correct `claude` CLI command
+- [x] Passes prompt content to the CLI tool
+- [x] Captures LLM response from stdout
+- [x] Returns error when CLI returns non-zero exit code
+- [x] Returns error for empty LLM output
+- [x] Uses `IProcessRunner` for process execution (testable with mock)
+- [x] No lint/type errors
 
 ### Context references
 
