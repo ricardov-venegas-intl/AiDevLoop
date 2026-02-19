@@ -1,6 +1,7 @@
-# Task TASK-013: Implement CommitMessageBuilder (ARCHIVED)
+# Task TASK-013: Implement CommitMessageBuilder
 
-This task's context and artifacts have been archived to `context/completed/TASK-013/`.
+## Description
+A pure function that generates a conventional commit message from a `TaskDefinition`. Format: `feat(TASK-XXX): <task title>` where the task title is cleaned and lowercased for the commit message subject line.
 
 ## Definition of Done
 - [ ] Generates `feat(TASK-001): add post /auth/login endpoint` format

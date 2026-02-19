@@ -1,30 +1,7 @@
-# Task TASK-013: Implement CommitMessageBuilder (ARCHIVED)
+# Task TASK-012: Implement PromptBuilder
 
-This task's context and artifacts have been archived to `context/completed/TASK-013/`.
-
-## Definition of Done
-- [ ] Generates `feat(TASK-001): add post /auth/login endpoint` format
-- [ ] Includes task ID in scope
-- [ ] Title is lowercased
-- [ ] Truncates to 72 characters with `...` for long titles
-- [ ] No trailing period
-- [ ] No lint/type errors
-- [ ] Build succeeds in local environment
-- [ ] Ready for code review
-
-## Steps
-1. Create `src/AiDevLoop.Core/CommitMessageBuilder.cs` with a static `GenerateCommitMessage(TaskDefinition task)` pure function
-2. Create `tests/AiDevLoop.Core.Tests/CommitMessageBuilderTests.cs` with unit tests covering all acceptance criteria
-3. Run `dotnet build -warnaserror` and `dotnet test` to verify
-
-## Acceptance Criteria
-- [ ] Output format: `feat(<task-id>): <lowercased title>`
-- [ ] Task ID taken from `task.Id.Value` (e.g. `TASK-001`)
-- [ ] Title lowercased
-- [ ] Subject line max 72 characters; truncate with `...` if exceeded (the `...` counts toward the 72)
-- [ ] No trailing period on the subject line
-- [ ] Pure function — no I/O, no dependencies
-- [ ] XML documentation on all public APIs
+## Description
+A pure function that constructs LLM agent prompts by combining a prompt template string with the task definition content and pre-loaded reference file contents. The shell pre-loads all files into a dictionary before calling this function. Output a single concatenated string suitable for passing to the LLM CLI.
 
 ## Definition of Done
 - [ ] Builds prompt with template + task + referenced files in correct order

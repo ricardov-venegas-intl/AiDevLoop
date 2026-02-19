@@ -15,15 +15,15 @@
 ## Milestone 3 — Plan Parsing & Task Management
 
 - [x] TASK-007 · Medium · Implement MarkdownPlanParser
-- [ ] TASK-008 · Simple · Implement TaskSelector
-- [ ] TASK-009 · Simple · Implement PlanUpdater
+- [x] TASK-008 · Simple · Implement TaskSelector
+- [x] TASK-009 · Simple · Implement PlanUpdater
 
 ## Milestone 4 — Core Business Logic
 
-- [ ] TASK-010 · Simple · Implement ValidationEngine
-- [ ] TASK-011 · Simple · Implement ReviewAnalyzer
-- [ ] TASK-012 · Simple · Implement PromptBuilder
-- [ ] TASK-013 · Trivial · Implement CommitMessageBuilder
+- [x] TASK-010 · Simple · Implement ValidationEngine
+- [x] TASK-011 · Simple · Implement ReviewAnalyzer
+- [x] TASK-012 · Simple · Implement PromptBuilder
+- [x] TASK-013 · Trivial · Implement CommitMessageBuilder
 - [ ] TASK-014 · Simple · Implement StateManager
 
 ## Milestone 5 — I/O Adapters
@@ -438,7 +438,7 @@ A pure function that parses the content of an `implementation-plan.md` file into
 ## TASK-008: Implement TaskSelector
 
 **Milestone:** 3 — Plan Parsing & Task Management
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-007
 
@@ -465,14 +465,14 @@ A pure function that selects the next task to execute from a `Plan`. If no task 
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Auto-selects first pending task when all its dependencies are done
-- [ ] Skips tasks with unsatisfied dependencies during auto-select
-- [ ] Selects specific task by ID when provided
-- [ ] Returns `TaskNotFound` for non-existent task ID
-- [ ] Returns `TaskNotPending` when task is already `Done` or `InProgress`
-- [ ] Returns `DependenciesNotMet` with the list of unsatisfied dependency IDs
-- [ ] Returns `NoPendingTasks` when no eligible tasks remain
-- [ ] No lint/type errors
+- [x] Auto-selects first pending task when all its dependencies are done
+- [x] Skips tasks with unsatisfied dependencies during auto-select
+- [x] Selects specific task by ID when provided
+- [x] Returns `TaskNotFound` for non-existent task ID
+- [x] Returns `TaskNotPending` when task is already `Done` or `InProgress`
+- [x] Returns `DependenciesNotMet` with the list of unsatisfied dependency IDs
+- [x] Returns `NoPendingTasks` when no eligible tasks remain
+- [x] No lint/type errors
 
 ### Context references
 
@@ -485,7 +485,7 @@ A pure function that selects the next task to execute from a `Plan`. If no task 
 ## TASK-009: Implement PlanUpdater
 
 **Milestone:** 3 — Plan Parsing & Task Management
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-007
 
@@ -527,7 +527,7 @@ A pure function that updates task status in the raw markdown content of `impleme
 ## TASK-010: Implement ValidationEngine
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -551,12 +551,12 @@ A pure function that analyzes a list of `CommandResult` objects from validation 
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Returns `AllPassed=true` when all commands succeed (exit code 0)
-- [ ] Returns `AllPassed=false` when any command fails
-- [ ] `FailedCommands` contains all failed `CommandResult` objects
-- [ ] `Warnings` includes stderr content from passing commands with stderr output
-- [ ] Empty command list returns `AllPassed=true` with warning about no validation
-- [ ] No lint/type errors
+- [x] Returns `AllPassed=true` when all commands succeed (exit code 0)
+- [x] Returns `AllPassed=false` when any command fails
+- [x] `FailedCommands` contains all failed `CommandResult` objects
+- [x] `Warnings` includes stderr content from passing commands with stderr output
+- [x] Empty command list returns `AllPassed=true` with warning about no validation
+- [x] No lint/type errors
 
 ### Context references
 
@@ -569,7 +569,7 @@ A pure function that analyzes a list of `CommandResult` objects from validation 
 ## TASK-011: Implement ReviewAnalyzer
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -595,15 +595,15 @@ A pure function that parses a `review.md` document produced by the review agent.
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Detects `APPROVED` at document top as pass (no blocking issues)
-- [ ] Extracts `BLOCKING` issues correctly
-- [ ] Extracts `NON-BLOCKING` issues correctly
-- [ ] Extracts `NITPICK` issues correctly
-- [ ] `HasBlockingIssues` is true only when `BLOCKING` issues exist
-- [ ] Returns correct `IterationNumber` in result
-- [ ] Handles empty/malformed review document gracefully
-- [ ] Handles varied casing of classification markers
-- [ ] No lint/type errors
+- [x] Detects `APPROVED` at document top as pass (no blocking issues)
+- [x] Extracts `BLOCKING` issues correctly
+- [x] Extracts `NON-BLOCKING` issues correctly
+- [x] Extracts `NITPICK` issues correctly
+- [x] `HasBlockingIssues` is true only when `BLOCKING` issues exist
+- [x] Returns correct `IterationNumber` in result
+- [x] Handles empty/malformed review document gracefully
+- [x] Handles varied casing of classification markers
+- [x] No lint/type errors
 
 ### Context references
 
@@ -617,7 +617,7 @@ A pure function that parses a `review.md` document produced by the review agent.
 ## TASK-012: Implement PromptBuilder
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -641,13 +641,13 @@ A pure function that constructs LLM agent prompts by combining a prompt template
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Builds prompt with template + task + referenced files in correct order
-- [ ] Sections separated by clear delimiters with source identification
-- [ ] Includes only files matching context references
-- [ ] Skips missing reference files with a placeholder comment
-- [ ] Handles empty context references list (template + task only)
-- [ ] Output is a valid string
-- [ ] No lint/type errors
+- [x] Builds prompt with template + task + referenced files in correct order
+- [x] Sections separated by clear delimiters with source identification
+- [x] Includes only files matching context references
+- [x] Skips missing reference files with a placeholder comment
+- [x] Handles empty context references list (template + task only)
+- [x] Output is a valid string
+- [x] No lint/type errors
 
 ### Context references
 
@@ -660,7 +660,7 @@ A pure function that constructs LLM agent prompts by combining a prompt template
 ## TASK-013: Implement CommitMessageBuilder
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Trivial
 **Depends on:** TASK-002
 
@@ -684,12 +684,12 @@ A pure function that generates a conventional commit message from a `TaskDefinit
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Generates `feat(TASK-001): add post /auth/login endpoint` format
-- [ ] Includes task ID in scope
-- [ ] Title is lowercased
-- [ ] Truncates to 72 characters with `...` for long titles
-- [ ] No trailing period
-- [ ] No lint/type errors
+- [x] Generates `feat(TASK-001): add post /auth/login endpoint` format
+- [x] Includes task ID in scope
+- [x] Title is lowercased
+- [x] Truncates to 72 characters with `...` for long titles
+- [x] No trailing period
+- [x] No lint/type errors
 
 ### Context references
 

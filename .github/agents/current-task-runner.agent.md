@@ -2,7 +2,7 @@
 name: current-task-runner
 description: Orchestrates the end-to-end task implementation workflow as defined in prompts/current-task-prompt.md.
 argument-hint: "This agent runs the main task loop and does not require an argument."
-tools: ['read/readFile', 'edit/createFile',  'agent', 'search/codebase','read','edit','edit/editFiles','search/changes','todo','search/fileSearch','execute/runTests','edit/createDirectory','agent','agent/runSubagent']
+tools: ['read/readFile', 'edit/createFile',  'agent', 'search/codebase','read','edit','edit/editFiles','search/changes','todo','search/fileSearch','execute/runTests','edit/createDirectory','agent','agent/runSubagent','github/create_pull_request','github/create_branch','github/list_branches','execute/runInTerminal']
 ---
 You are the master orchestrator agent for the AiDevLoop. Your sole responsibility is to execute the end-to-end development task workflow by following the steps defined in `prompts/current-task-prompt.md`.
 
