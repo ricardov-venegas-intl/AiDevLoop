@@ -1,3 +1,34 @@
+# Implementation Notes: TASK-017
+
+## Task Name
+Implement ConsoleIO with output modes
+
+## Decisions Made
+- **Private constructor for color control**: Added a private constructor overload accepting `bool useColor` so `CreateForConsole` can enable color while the public constructor (used in tests) always disables it, preventing escape codes from leaking into test assertions.
+- **OutputMode in Core/Domain**: Placed the enum in `AiDevLoop.Core.Domain` so Shell can reference it without introducing a circular dependency; Core has zero project references.
+- **`[VERBOSE]` prefix when color disabled**: When writing to an injected `TextWriter` (no color), verbose messages are prefixed with `[VERBOSE] ` to make them distinguishable in logs and test assertions.
+- **`Console.ForegroundColor` / `Console.ResetColor()` only when `_useColor`**: Color methods touch the global `Console` state, so they are guarded by `_useColor`, which is `false` for all injected-writer instances and `true` only when created via `CreateForConsole` on a non-redirected console.
+- **`Confirm` default is No**: Empty input (or `null` from `ReadLine`) returns `false`, matching conventional `[y/N]` prompt semantics.
+- **`PromptChoice` loops until valid**: Invalid input writes an error hint and re-prompts rather than throwing, keeping UX consistent for interactive terminals.
+
+## Known Limitations
+- **Color resets not atomic**: If the process is interrupted between `ForegroundColor = Red` and `ResetColor()`, the terminal color may remain changed. Mitigation is out of scope for this tool.
+- **`PromptChoice` infinite loop on EOF**: If `_input` hits end-of-stream without valid input (e.g., piped input that runs out), the loop reads `null` forever. Acceptable for current interactive-only use case.
+
+## Risk Areas
+- **Global `Console` color state**: `WriteError` and `WriteWarning` mutate `Console.ForegroundColor` directly; concurrent calls from multiple threads could interleave colors. Not a concern now (single-task, single-thread CLI), but worth noting for future parallel output.
+
+## Dependencies
+- IConsoleIO interface (TASK-003) — already existed at `src/AiDevLoop.Shell/Adapters/IConsoleIO.cs`
+- OutputMode enum (new, in `AiDevLoop.Core/Domain/OutputMode.cs`)
+
+## Testing Notes
+- Used `StringWriter`/`StringReader` injection for fully deterministic, side-effect-free output capture
+- 20 xUnit tests covering all output modes, both branches of `Confirm`, valid/invalid `PromptChoice` input, and the `[VERBOSE]` prefix
+- All 236 suite-wide tests pass after implementation
+
+---
+
 # Implementation Notes: TASK-016
 
 ## Task Name

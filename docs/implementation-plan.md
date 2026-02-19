@@ -30,7 +30,7 @@
 
 - [x] TASK-015 · Simple · Implement FileOperations with atomic writes
 - [x] TASK-016 · Simple · Implement ProcessRunner
-- [ ] TASK-017 · Simple · Implement ConsoleIO with output modes
+- [x] TASK-017 · Simple · Implement ConsoleIO with output modes
 - [ ] TASK-018 · Simple · Implement Claude LLM Client
 - [ ] TASK-019 · Simple · Implement Copilot LLM Client
 - [ ] TASK-020 · Simple · Implement GitClient
@@ -832,7 +832,7 @@ Concrete implementation of `IProcessRunner`. Execute external commands asynchron
 ## TASK-017: Implement ConsoleIO with output modes
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003
 
@@ -859,14 +859,14 @@ Concrete implementation of `IConsoleIO`. Display output respecting three modes: 
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `WriteStep` displays in Normal mode, hidden in Quiet mode
-- [ ] `WriteError` displays in all modes
-- [ ] `WriteVerbose` displays only in Verbose mode
-- [ ] `Confirm` prompts user with default value and returns response
-- [ ] `PromptChoice<T>` displays numbered options and returns selection
-- [ ] Step progress format: `[N/8] Step Name → details`
-- [ ] Color output when terminal supports ANSI
-- [ ] No lint/type errors
+- [x] `WriteStep` displays in Normal mode, hidden in Quiet mode
+- [x] `WriteError` displays in all modes
+- [x] `WriteVerbose` displays only in Verbose mode
+- [x] `Confirm` prompts user with default value and returns response
+- [x] `PromptChoice<T>` displays numbered options and returns selection
+- [x] Step progress format: `[N/8] Step Name → details`
+- [x] Color output when terminal supports ANSI
+- [x] No lint/type errors
 
 ### Context references
 
