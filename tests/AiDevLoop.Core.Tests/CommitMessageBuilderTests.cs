@@ -123,6 +123,15 @@ public class CommitMessageBuilderTests
         Assert.Equal("feat(TASK-009): " + new string('d', 53) + "...", result);
     }
 
+    [Fact]
+    public void GenerateCommitMessage_TitleAllPeriods_ReturnsJustPrefix()
+    {
+        // "..." → TrimEnd('.') → "" → empty title should not produce a trailing space
+        var task = MakeTask("TASK-010", "...");
+        var result = CommitMessageBuilder.GenerateCommitMessage(task);
+        Assert.Equal("feat(TASK-010):", result);
+    }
+
     // -----------------------------------------------------------------------
     // Null guard
     // -----------------------------------------------------------------------

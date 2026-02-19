@@ -30,9 +30,13 @@ public static class TaskSelector
     /// </returns>
     public static Result<TaskDefinition, SelectionError> SelectTask(Plan plan, TaskId? taskId)
     {
-        var taskMap = plan.Milestones
-            .SelectMany(m => m.Tasks)
-            .ToDictionary(t => t.Id);
+        var taskMap = new Dictionary<TaskId, TaskDefinition>();
+
+        foreach (var task in plan.Milestones.SelectMany(m => m.Tasks))
+        {
+            // Last-write-wins for duplicate task IDs to avoid exceptions from ToDictionary.
+            taskMap[task.Id] = task;
+        }
 
         return taskId is null
             ? AutoSelect(plan, taskMap)
@@ -44,7 +48,7 @@ public static class TaskSelector
         Dictionary<TaskId, TaskDefinition> taskMap)
     {
         var candidate = plan.Milestones
-            .SelectMany(m => m.Tasks)
+            .SelectMany(m => m.Tasks.OrderBy(t => t.Id.Value, StringComparer.Ordinal))
             .FirstOrDefault(t => t.Status == TaskStatus.Pending && AllDepsDone(t, taskMap));
 
         return candidate is null
