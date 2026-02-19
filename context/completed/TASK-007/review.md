@@ -18,4 +18,3 @@ Implemented `MarkdownPlanParser` in `AiDevLoop.Core` with unit tests. Parser is 
 - [x] Code style compliance (XML docs where public)
 - [x] Test coverage adequate for initial implementation
 - [x] Risk areas documented in implementation notes
-

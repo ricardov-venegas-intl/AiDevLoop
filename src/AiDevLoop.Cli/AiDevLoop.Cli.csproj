@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="YamlDotNet" Version="12.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AiDevLoop.Core\AiDevLoop.Core.csproj" />
     <ProjectReference Include="..\AiDevLoop.Shell\AiDevLoop.Shell.csproj" />
   </ItemGroup>

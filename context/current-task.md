@@ -1,39 +1,4 @@
-# Task TASK-002: Define core domain types (ARCHIVED)
+# Task TASK-007: Implement MarkdownPlanParser (ARCHIVED)
 
-This task's context has been archived to `context/completed/TASK-002/`.
+This task's context and artifacts have been archived to `context/completed/TASK-007/`.
 
-
-## Definition of Done
-- [ ] All domain types compile with zero nullable warnings
-- [ ] `Result<T, TError>` supports `Ok` and `Err` cases with pattern matching via `switch` expressions
-- [ ] Record equality works correctly for `TaskId` value objects
-- [ ] `SelectionError` discriminated union has all four variants
-- [ ] `Configuration.Default` factory returns config matching FR-3.2 defaults
-- [ ] All collection properties use `IReadOnlyList<T>`
-- [ ] Unit tests verify `Result` pattern matching and `TaskId` equality
-- [ ] No lint/type errors
-- [ ] Build succeeds in local environment
-- [ ] Ready for code review
-
-## Steps
-1. Create `Result<TValue, TError>` discriminated union with `Ok` and `Err` cases
-2. Create `TaskId` readonly record struct value object
-3. Create `TaskStatus`, `Complexity`, `IssueClassification`, `Command` enums
-4. Create `TaskDefinition`, `Plan`, `Milestone`, `FileReference` records
-5. Create `CommandResult`, `ValidationResult` records
-6. Create `ReviewIssue`, `ReviewResult` records
-7. Create `ResumeState`, `GitStatus` records
-8. Create `CommandLineArgs`, `CommandLineOptions` records
-9. Create `Configuration`, `PathsConfiguration`, `ValidationConfiguration` records
-10. Create `SelectionError` discriminated union with four variants
-11. Write unit tests for `Result` and `TaskId` in `Domain/ResultTests.cs`
-12. Build and verify zero errors/warnings
-
-## Acceptance Criteria
-- [ ] All domain types compile with zero nullable warnings
-- [ ] `Result<T, TError>` supports `Ok` and `Err` cases with pattern matching via `switch` expressions
-- [ ] Record equality works correctly for `TaskId` value objects
-- [ ] `SelectionError` discriminated union has all four variants
-- [ ] `Configuration.Default` factory returns config matching FR-3.2 defaults
-- [ ] All collection properties use `IReadOnlyList<T>`
-- [ ] Unit tests verify `Result` pattern matching and `TaskId` equality

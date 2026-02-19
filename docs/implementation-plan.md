@@ -4,17 +4,17 @@
 
 - [x] TASK-001 · Trivial · Create solution and project structure
 - [x] TASK-002 · Simple · Define core domain types
-- [ ] TASK-003 · Simple · Define shell adapter interfaces
+- [x] TASK-003 · Simple · Define shell adapter interfaces
 
 ## Milestone 2 — Configuration & CLI Parsing
 
-- [ ] TASK-004 · Simple · Implement ConfigurationLoader
-- [ ] TASK-005 · Simple · Implement ConfigurationValidator
-- [ ] TASK-006 · Simple · Implement CommandLineParser
+- [x] TASK-004 · Simple · Implement ConfigurationLoader
+- [x] TASK-005 · Simple · Implement ConfigurationValidator
+- [x] TASK-006 · Simple · Implement CommandLineParser
 
 ## Milestone 3 — Plan Parsing & Task Management
 
-- [ ] TASK-007 · Medium · Implement MarkdownPlanParser
+- [x] TASK-007 · Medium · Implement MarkdownPlanParser
 - [ ] TASK-008 · Simple · Implement TaskSelector
 - [ ] TASK-009 · Simple · Implement PlanUpdater
 
@@ -197,7 +197,7 @@ Create all domain types for the functional core: the `Result<TValue, TError>` di
 ## TASK-003: Define shell adapter interfaces
 
 **Milestone:** 1 — Project Scaffolding & Domain Model
-**Status:** pending
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -247,7 +247,7 @@ Define the five I/O adapter interfaces that form the boundary between the orches
 ## TASK-004: Implement ConfigurationLoader
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** pending
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -272,14 +272,14 @@ A `ConfigurationLoader` that reads configuration from `.aidevloop.json` or `.aid
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Loads valid `.aidevloop.json` correctly
-- [ ] Loads valid `.aidevloop.yaml` correctly
-- [ ] Returns defaults when no config file exists
-- [ ] CLI `--llm` override takes precedence over file value
-- [ ] CLI `--verbose` override takes precedence over file value
-- [ ] `--config=path` loads from the specified path
-- [ ] Returns error for malformed JSON/YAML
-- [ ] No lint/type errors
+- [x] Loads valid `.aidevloop.json` correctly
+- [x] Loads valid `.aidevloop.yaml` correctly
+- [x] Returns defaults when no config file exists
+- [x] CLI `--llm` override takes precedence over file value
+- [x] CLI `--verbose` override takes precedence over file value
+- [x] `--config=path` loads from the specified path
+- [x] Returns error for malformed JSON/YAML
+- [x] No lint/type errors
 
 ### Context references
 
@@ -292,7 +292,7 @@ A `ConfigurationLoader` that reads configuration from `.aidevloop.json` or `.aid
 ## TASK-005: Implement ConfigurationValidator
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** pending
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-004
 
@@ -317,13 +317,13 @@ A pure function that validates a `Configuration` object against the expected sch
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Valid configuration returns `Ok`
-- [ ] Invalid LLM provider (e.g., `"gpt"`) returns error
-- [ ] `maxReviewIterations` of 0 or negative returns error
-- [ ] Empty path values return errors
-- [ ] Multiple validation errors accumulated in single result
-- [ ] Null/missing validation commands do not trigger errors
-- [ ] No lint/type errors
+- [x] Valid configuration returns `Ok`
+- [x] Invalid LLM provider (e.g., `"gpt"`) returns error
+- [x] `maxReviewIterations` of 0 or negative returns error
+- [x] Empty path values return errors
+- [x] Multiple validation errors accumulated in single result
+- [x] Null/missing validation commands do not trigger errors
+- [x] No lint/type errors
 
 ### Context references
 
@@ -336,7 +336,7 @@ A pure function that validates a `Configuration` object against the expected sch
 ## TASK-006: Implement CommandLineParser
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** pending
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -364,17 +364,17 @@ A `CommandLineParser` that parses `string[] args` into a `CommandLineArgs` recor
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `run` parses to `Command.Run` with no task ID
-- [ ] `run TASK-005` parses to `Command.Run` with `TaskId("TASK-005")`
-- [ ] `resume` parses to `Command.Resume`
-- [ ] `resume --from-step=4` parses with step number 4
-- [ ] `--llm=copilot` sets LLM provider override
-- [ ] `--verbose` sets verbose flag
-- [ ] `--quiet` sets quiet flag
-- [ ] `--verbose --quiet` together returns error
-- [ ] `--from-step` with `run` command returns error
-- [ ] Unknown flags return error
-- [ ] No lint/type errors
+- [x] `run` parses to `Command.Run` with no task ID
+- [x] `run TASK-005` parses to `Command.Run` with `TaskId("TASK-005")`
+- [x] `resume` parses to `Command.Resume`
+- [x] `resume --from-step=4` parses with step number 4
+- [x] `--llm=copilot` sets LLM provider override
+- [x] `--verbose` sets verbose flag
+- [x] `--quiet` sets quiet flag
+- [x] `--verbose --quiet` together returns error
+- [x] `--from-step` with `run` command returns error
+- [x] Unknown flags return error
+- [x] No lint/type errors
 
 ### Context references
 
@@ -387,7 +387,7 @@ A `CommandLineParser` that parses `string[] args` into a `CommandLineArgs` recor
 ## TASK-007: Implement MarkdownPlanParser
 
 **Milestone:** 3 — Plan Parsing & Task Management
-**Status:** pending
+**Status:** done
 **Complexity:** Medium
 **Depends on:** TASK-002
 
