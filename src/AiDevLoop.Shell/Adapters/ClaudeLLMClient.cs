@@ -31,7 +31,7 @@ public sealed class ClaudeLLMClient : ILLMClient
     {
         ArgumentNullException.ThrowIfNull(prompt);
 
-        string escapedPrompt = EscapeArgument(prompt);
+        string escapedPrompt = ProcessArgumentHelper.EscapeArgument(prompt);
         string arguments = $"--print -p {escapedPrompt}";
 
         CommandResult result = await _processRunner
@@ -52,40 +52,5 @@ public sealed class ClaudeLLMClient : ILLMClient
         }
 
         return response;
-    }
-
-    /// <summary>
-    /// Wraps <paramref name="value"/> in double-quotes with proper Windows
-    /// CommandLineToArgvW-compatible escaping (handles backslashes before quotes).
-    /// </summary>
-    private static string EscapeArgument(string value)
-    {
-        var sb = new System.Text.StringBuilder();
-        sb.Append('"');
-        int backslashCount = 0;
-        foreach (char c in value)
-        {
-            if (c == '\\')
-            {
-                backslashCount++;
-            }
-            else if (c == '"')
-            {
-                sb.Append('\\', backslashCount * 2 + 1);
-                sb.Append('"');
-                backslashCount = 0;
-            }
-            else
-            {
-                sb.Append('\\', backslashCount);
-                sb.Append(c);
-                backslashCount = 0;
-            }
-        }
-
-        // Trailing backslashes must be doubled so they don't escape the closing quote.
-        sb.Append('\\', backslashCount * 2);
-        sb.Append('"');
-        return sb.ToString();
     }
 }
