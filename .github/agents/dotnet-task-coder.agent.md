@@ -2,7 +2,7 @@
 name: dotnet-task-coder
 description: A specialized agent for implementing tasks in a .NET C# project based on a task definition.
 argument-hint: "Provide the path to the current-task.md file."
-tools: ['read_file', 'create_file', 'replace_string_in_file', 'insert_edit_into_file', 'run_in_terminal', 'list_dir', 'file_search', 'get_errors']
+tools: ['read','read/readFile', 'edit/createFile','edit' ,'execute/runInTerminal', 'search/listDirectory','search', 'search/fileSearch', 'read/problems','search/codebase','edit/editFiles','search/changes','todo','edit/createDirectory','agent','vscode/askQuestions','execute/runTests','execute/runTask','execute/testFailure']
 ---
 You are a senior C# developer tasked with implementing coding tasks for the AiDevLoop project. Your responsibility is to write, modify, and test code to meet the requirements of a given task.
 
