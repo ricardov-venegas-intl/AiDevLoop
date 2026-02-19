@@ -29,7 +29,7 @@
 ## Milestone 5 — I/O Adapters
 
 - [x] TASK-015 · Simple · Implement FileOperations with atomic writes
-- [ ] TASK-016 · Simple · Implement ProcessRunner
+- [x] TASK-016 · Simple · Implement ProcessRunner
 - [ ] TASK-017 · Simple · Implement ConsoleIO with output modes
 - [ ] TASK-018 · Simple · Implement Claude LLM Client
 - [ ] TASK-019 · Simple · Implement Copilot LLM Client
@@ -787,10 +787,7 @@ Concrete implementation of `IFileOperations`. Read files as strings, write files
 
 ---
 
-## TASK-016: Implement ProcessRunner
-
-**Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003
 
@@ -815,13 +812,13 @@ Concrete implementation of `IProcessRunner`. Execute external commands asynchron
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Executes a command and captures stdout
-- [ ] Captures stderr separately from stdout
-- [ ] Returns correct exit code
-- [ ] Respects `CancellationToken` for cancellation (kills process)
-- [ ] Limits output to 500 lines in non-verbose mode
-- [ ] Handles command-not-found gracefully
-- [ ] No lint/type errors
+- [x] Executes a command and captures stdout
+- [x] Captures stderr separately from stdout
+- [x] Returns correct exit code
+- [x] Respects `CancellationToken` for cancellation (kills process)
+- [x] Limits output to 500 lines in non-verbose mode
+- [x] Handles command-not-found gracefully
+- [x] No lint/type errors
 
 ### Context references
 

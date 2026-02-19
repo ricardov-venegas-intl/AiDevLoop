@@ -213,7 +213,8 @@ public class PlanUpdaterTests
     [Fact]
     public void UpdateTaskStatus_CrlfInput_PreservesCrlf()
     {
-        var lfPlan = MakePlan();
+        // Normalize to LF first — the raw string literal may already use CRLF on Windows.
+        var lfPlan = MakePlan().Replace("\r\n", "\n");
         var crlfPlan = lfPlan.Replace("\n", "\r\n");
 
         var result = PlanUpdater.UpdateTaskStatus(crlfPlan, Id("TASK-002"), TaskStatus.Done);
