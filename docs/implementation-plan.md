@@ -20,7 +20,7 @@
 
 ## Milestone 4 — Core Business Logic
 
-- [ ] TASK-010 · Simple · Implement ValidationEngine
+- [x] TASK-010 · Simple · Implement ValidationEngine
 - [ ] TASK-011 · Simple · Implement ReviewAnalyzer
 - [ ] TASK-012 · Simple · Implement PromptBuilder
 - [ ] TASK-013 · Trivial · Implement CommitMessageBuilder
@@ -527,7 +527,7 @@ A pure function that updates task status in the raw markdown content of `impleme
 ## TASK-010: Implement ValidationEngine
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -551,12 +551,12 @@ A pure function that analyzes a list of `CommandResult` objects from validation 
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Returns `AllPassed=true` when all commands succeed (exit code 0)
-- [ ] Returns `AllPassed=false` when any command fails
-- [ ] `FailedCommands` contains all failed `CommandResult` objects
-- [ ] `Warnings` includes stderr content from passing commands with stderr output
-- [ ] Empty command list returns `AllPassed=true` with warning about no validation
-- [ ] No lint/type errors
+- [x] Returns `AllPassed=true` when all commands succeed (exit code 0)
+- [x] Returns `AllPassed=false` when any command fails
+- [x] `FailedCommands` contains all failed `CommandResult` objects
+- [x] `Warnings` includes stderr content from passing commands with stderr output
+- [x] Empty command list returns `AllPassed=true` with warning about no validation
+- [x] No lint/type errors
 
 ### Context references
 
