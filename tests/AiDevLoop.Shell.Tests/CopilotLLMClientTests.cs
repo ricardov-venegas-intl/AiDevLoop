@@ -42,7 +42,7 @@ public sealed class CopilotLLMClientTests
         InvalidOperationException ex = await Assert.ThrowsAsync<InvalidOperationException>(
             () => client.InvokeAsync("hello", CancellationToken.None));
 
-        Assert.Contains("1", ex.Message);
+        Assert.Contains("code 1", ex.Message);
         Assert.Contains("error output", ex.Message);
     }
 
@@ -115,6 +115,39 @@ public sealed class CopilotLLMClientTests
 
         Assert.NotNull(_fakeRunner.CapturedArguments);
         Assert.Contains("\\\"", _fakeRunner.CapturedArguments);
+    }
+
+    /// <summary>
+    /// Backslashes immediately before double-quotes are doubled so the quote stays escaped.
+    /// </summary>
+    [Fact]
+    public async Task InvokeAsync_PromptWithBackslashBeforeQuote_EscapesCorrectly()
+    {
+        _fakeRunner.ResultToReturn = new CommandResult("copilot", 0, "ok", "");
+        CopilotLLMClient client = new(_fakeRunner);
+
+        // Prompt: path\"value — backslash immediately before a double-quote
+        await client.InvokeAsync("path\\\"value", CancellationToken.None);
+
+        Assert.NotNull(_fakeRunner.CapturedArguments);
+        // The single backslash + quote should be escaped to \\\"
+        Assert.Contains("\\\\\\\"", _fakeRunner.CapturedArguments);
+    }
+
+    /// <summary>
+    /// Trailing backslashes in the prompt are doubled to avoid escaping the closing quote.
+    /// </summary>
+    [Fact]
+    public async Task InvokeAsync_PromptWithTrailingBackslash_DoublesTrailingBackslashes()
+    {
+        _fakeRunner.ResultToReturn = new CommandResult("copilot", 0, "ok", "");
+        CopilotLLMClient client = new(_fakeRunner);
+
+        await client.InvokeAsync("trailing\\", CancellationToken.None);
+
+        Assert.NotNull(_fakeRunner.CapturedArguments);
+        // The argument should end with \\" (doubled backslash then closing quote)
+        Assert.Contains("\\\\\"", _fakeRunner.CapturedArguments);
     }
 
     private sealed class FakeProcessRunner : IProcessRunner

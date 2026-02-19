@@ -46,10 +46,10 @@ public sealed class ProcessRunner : IProcessRunner
             CreateNoWindow = true,
         };
 
-        List<string> stdoutLines = [];
-        List<string> stderrLines = [];
-        Queue<string> stdoutQueue = new();
-        Queue<string> stderrQueue = new();
+        List<string>? stdoutLines = verbose ? [] : null;
+        List<string>? stderrLines = verbose ? [] : null;
+        Queue<string>? stdoutQueue = verbose ? null : new();
+        Queue<string>? stderrQueue = verbose ? null : new();
 
         using var process = new Process { StartInfo = startInfo };
 
@@ -59,7 +59,7 @@ public sealed class ProcessRunner : IProcessRunner
             {
                 if (e.Data is not null)
                 {
-                    lock (stdoutLines)
+                    lock (stdoutLines!)
                         stdoutLines.Add(e.Data);
                 }
             };
@@ -68,7 +68,7 @@ public sealed class ProcessRunner : IProcessRunner
             {
                 if (e.Data is not null)
                 {
-                    lock (stderrLines)
+                    lock (stderrLines!)
                         stderrLines.Add(e.Data);
                 }
             };
@@ -79,7 +79,7 @@ public sealed class ProcessRunner : IProcessRunner
             {
                 if (e.Data is not null)
                 {
-                    lock (stdoutQueue)
+                    lock (stdoutQueue!)
                     {
                         stdoutQueue.Enqueue(e.Data);
                         if (stdoutQueue.Count > NonVerboseQueueLimit)
@@ -92,7 +92,7 @@ public sealed class ProcessRunner : IProcessRunner
             {
                 if (e.Data is not null)
                 {
-                    lock (stderrQueue)
+                    lock (stderrQueue!)
                     {
                         stderrQueue.Enqueue(e.Data);
                         if (stderrQueue.Count > NonVerboseQueueLimit)
@@ -133,16 +133,16 @@ public sealed class ProcessRunner : IProcessRunner
 
         if (verbose)
         {
-            lock (stdoutLines)
+            lock (stdoutLines!)
                 stdout = string.Join(Environment.NewLine, stdoutLines);
-            lock (stderrLines)
+            lock (stderrLines!)
                 stderr = string.Join(Environment.NewLine, stderrLines);
         }
         else
         {
-            lock (stdoutQueue)
+            lock (stdoutQueue!)
                 stdout = string.Join(Environment.NewLine, stdoutQueue);
-            lock (stderrQueue)
+            lock (stderrQueue!)
                 stderr = string.Join(Environment.NewLine, stderrQueue);
         }
 

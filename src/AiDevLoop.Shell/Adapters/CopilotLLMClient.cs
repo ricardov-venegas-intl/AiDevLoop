@@ -31,8 +31,8 @@ public sealed class CopilotLLMClient : ILLMClient
     {
         ArgumentNullException.ThrowIfNull(prompt);
 
-        string escapedPrompt = prompt.Replace("\"", "\\\"");
-        string arguments = $"-p \"{escapedPrompt}\"";
+        string escapedPrompt = EscapeArgument(prompt);
+        string arguments = $"-p {escapedPrompt}";
 
         CommandResult result = await _processRunner
             .RunAsync("copilot", arguments, cancellationToken)
@@ -52,5 +52,40 @@ public sealed class CopilotLLMClient : ILLMClient
         }
 
         return response;
+    }
+
+    /// <summary>
+    /// Wraps <paramref name="value"/> in double-quotes with proper Windows
+    /// CommandLineToArgvW-compatible escaping (handles backslashes before quotes).
+    /// </summary>
+    private static string EscapeArgument(string value)
+    {
+        var sb = new System.Text.StringBuilder();
+        sb.Append('"');
+        int backslashCount = 0;
+        foreach (char c in value)
+        {
+            if (c == '\\')
+            {
+                backslashCount++;
+            }
+            else if (c == '"')
+            {
+                sb.Append('\\', backslashCount * 2 + 1);
+                sb.Append('"');
+                backslashCount = 0;
+            }
+            else
+            {
+                sb.Append('\\', backslashCount);
+                sb.Append(c);
+                backslashCount = 0;
+            }
+        }
+
+        // Trailing backslashes must be doubled so they don't escape the closing quote.
+        sb.Append('\\', backslashCount * 2);
+        sb.Append('"');
+        return sb.ToString();
     }
 }

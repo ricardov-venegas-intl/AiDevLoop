@@ -26,6 +26,8 @@ public sealed class ConsoleIO : IConsoleIO
     /// <param name="input">The reader to use for input.</param>
     public ConsoleIO(OutputMode mode, TextWriter output, TextReader input)
     {
+        ArgumentNullException.ThrowIfNull(output);
+        ArgumentNullException.ThrowIfNull(input);
         _mode = mode;
         _output = output;
         _input = input;
@@ -124,6 +126,8 @@ public sealed class ConsoleIO : IConsoleIO
     /// <inheritdoc />
     public T PromptChoice<T>(string question, IReadOnlyList<(string Label, T Value)> options)
     {
+        ArgumentOutOfRangeException.ThrowIfZero(options.Count);
+
         _output.WriteLine(question);
 
         for (int i = 0; i < options.Count; i++)
@@ -135,6 +139,11 @@ public sealed class ConsoleIO : IConsoleIO
         {
             _output.Write("Enter choice: ");
             string? line = _input.ReadLine();
+
+            if (line is null)
+            {
+                throw new InvalidOperationException("Input stream reached end of file before a valid choice was entered.");
+            }
 
             if (int.TryParse(line, out int choice) && choice >= 1 && choice <= options.Count)
             {

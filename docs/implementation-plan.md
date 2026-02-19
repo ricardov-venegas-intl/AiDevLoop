@@ -699,6 +699,9 @@ A pure function that generates a conventional commit message from a `TaskDefinit
 
 ---
 
+## TASK-014: Implement StateManager
+
+**Milestone:** 4 — Core Business Logic
 **Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
@@ -714,7 +717,7 @@ A pure function that determines the resume point based on which context files ex
 
 ### Constraints
 
-- Pure function: `Result<ResumeState, string> DetermineResumePoint(bool currentTaskExists, bool implementationNotesExists, bool reviewExists, TaskStatus statusInPlan)`
+- Pure function: `Result<ResumeState, string> DetermineResumePoint(bool currentTaskExists, bool implementationNotesExists, bool reviewExists, TaskStatus statusInPlan, TaskId taskId)`
 - Also: `Result<TaskId, string> ExtractTaskId(string currentTaskContent)` — parse task ID from the `## TASK-XXX:` header in current-task.md
 - Resume logic per architecture:
   - No `current-task.md` → error `"No task in progress"`
@@ -787,6 +790,9 @@ Concrete implementation of `IFileOperations`. Read files as strings, write files
 
 ---
 
+## TASK-016: Implement ProcessRunner
+
+**Milestone:** 5 — I/O Adapters
 **Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003
