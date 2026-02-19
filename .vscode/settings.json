@@ -10,6 +10,7 @@
         "Copy-Item": true,
         "git add": true,
         "git commit": true,
-        "mkdir": true
+        "mkdir": true,
+        "Set-Content": true
     }
 }
