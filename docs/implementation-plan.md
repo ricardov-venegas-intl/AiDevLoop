@@ -24,7 +24,7 @@
 - [x] TASK-011 · Simple · Implement ReviewAnalyzer
 - [x] TASK-012 · Simple · Implement PromptBuilder
 - [x] TASK-013 · Trivial · Implement CommitMessageBuilder
-- [ ] TASK-014 · Simple · Implement StateManager
+- [x] TASK-014 · Simple · Implement StateManager
 
 ## Milestone 5 — I/O Adapters
 
@@ -699,10 +699,7 @@ A pure function that generates a conventional commit message from a `TaskDefinit
 
 ---
 
-## TASK-014: Implement StateManager
-
-**Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -728,13 +725,13 @@ A pure function that determines the resume point based on which context files ex
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Returns error when no `current-task.md` exists
-- [ ] Returns step 3 when only `current-task.md` exists
-- [ ] Returns step 4 when `implementation-notes.md` exists but `review.md` missing
-- [ ] Returns step 6 when `review.md` exists
-- [ ] `ExtractTaskId` parses task ID from markdown header
-- [ ] `ExtractTaskId` returns error for malformed content
-- [ ] No lint/type errors
+- [x] Returns error when no `current-task.md` exists
+- [x] Returns step 3 when only `current-task.md` exists
+- [x] Returns step 4 when `implementation-notes.md` exists but `review.md` missing
+- [x] Returns step 6 when `review.md` exists
+- [x] `ExtractTaskId` parses task ID from markdown header
+- [x] `ExtractTaskId` returns error for malformed content
+- [x] No lint/type errors
 
 ### Context references
 
