@@ -9,7 +9,7 @@
 ## Milestone 2 — Configuration & CLI Parsing
 
 - [x] TASK-004 · Simple · Implement ConfigurationLoader
-- [ ] TASK-005 · Simple · Implement ConfigurationValidator
+- [x] TASK-005 · Simple · Implement ConfigurationValidator
 - [ ] TASK-006 · Simple · Implement CommandLineParser
 
 ## Milestone 3 — Plan Parsing & Task Management
@@ -292,7 +292,7 @@ A `ConfigurationLoader` that reads configuration from `.aidevloop.json` or `.aid
 ## TASK-005: Implement ConfigurationValidator
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-004
 
@@ -317,13 +317,13 @@ A pure function that validates a `Configuration` object against the expected sch
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Valid configuration returns `Ok`
-- [ ] Invalid LLM provider (e.g., `"gpt"`) returns error
-- [ ] `maxReviewIterations` of 0 or negative returns error
-- [ ] Empty path values return errors
-- [ ] Multiple validation errors accumulated in single result
-- [ ] Null/missing validation commands do not trigger errors
-- [ ] No lint/type errors
+- [x] Valid configuration returns `Ok`
+- [x] Invalid LLM provider (e.g., `"gpt"`) returns error
+- [x] `maxReviewIterations` of 0 or negative returns error
+- [x] Empty path values return errors
+- [x] Multiple validation errors accumulated in single result
+- [x] Null/missing validation commands do not trigger errors
+- [x] No lint/type errors
 
 ### Context references
 
