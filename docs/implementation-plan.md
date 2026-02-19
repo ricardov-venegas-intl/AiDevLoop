@@ -247,7 +247,7 @@ Define the five I/O adapter interfaces that form the boundary between the orches
 ## TASK-004: Implement ConfigurationLoader
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** Completed
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -292,7 +292,7 @@ A `ConfigurationLoader` that reads configuration from `.aidevloop.json` or `.aid
 ## TASK-005: Implement ConfigurationValidator
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** Completed
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-004
 
@@ -336,7 +336,7 @@ A pure function that validates a `Configuration` object against the expected sch
 ## TASK-006: Implement CommandLineParser
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** Completed
+**Status:** done
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -387,7 +387,7 @@ A `CommandLineParser` that parses `string[] args` into a `CommandLineArgs` recor
 ## TASK-007: Implement MarkdownPlanParser
 
 **Milestone:** 3 — Plan Parsing & Task Management
-**Status:** Completed
+**Status:** done
 **Complexity:** Medium
 **Depends on:** TASK-002
 

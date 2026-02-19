@@ -54,9 +54,9 @@ A pure function that parses the content of an `implementation-plan.md` file into
         Assert.Equal(AiDevLoop.Core.Domain.Complexity.Medium, task.Complexity);
         Assert.Contains(task.DependsOn, d => d.Value == "TASK-002");
 
-        var fileRef = Assert.Single(task.FilesInScope);
-        Assert.Equal("src/AiDevLoop.Core/MarkdownPlanParser.cs", fileRef.Path);
-        Assert.Equal(FileReferenceKind.Create, fileRef.Kind);
+        Assert.Equal(2, task.FilesInScope.Count);
+        Assert.Contains(task.FilesInScope, f => f.Path == "src/AiDevLoop.Core/MarkdownPlanParser.cs" && f.Kind == FileReferenceKind.Create);
+        Assert.Contains(task.FilesInScope, f => f.Path == "tests/AiDevLoop.Core.Tests/MarkdownPlanParserTests.cs" && f.Kind == FileReferenceKind.Create);
     }
 
     [Fact]
@@ -76,5 +76,291 @@ A pure function that parses the content of an `implementation-plan.md` file into
 
         var err = Assert.IsType<Result<Plan, string>.Err>(result);
         Assert.Contains("No task definitions", err.Error, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Parse_HandlesMultipleDependencies()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** TASK-002, TASK-003, TASK-004
+
+### What to build
+Test description.
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        Assert.Equal(3, task.DependsOn.Count);
+        Assert.Contains(task.DependsOn, d => d.Value == "TASK-002");
+        Assert.Contains(task.DependsOn, d => d.Value == "TASK-003");
+        Assert.Contains(task.DependsOn, d => d.Value == "TASK-004");
+    }
+
+    [Fact]
+    public void Parse_HandlesNoDependencies_WithDash()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        Assert.Empty(task.DependsOn);
+    }
+
+    [Fact]
+    public void Parse_HandlesNoDependencies_WithHyphen()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** -
+
+### What to build
+Test description.
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        Assert.Empty(task.DependsOn);
+    }
+
+    [Fact]
+    public void Parse_HandlesInProgressStatus()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** in-progress
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        Assert.Equal(AiDevLoop.Core.Domain.TaskStatus.InProgress, task.Status);
+    }
+
+    [Fact]
+    public void Parse_HandlesBlockedStatus()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** blocked
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        Assert.Equal(AiDevLoop.Core.Domain.TaskStatus.Blocked, task.Status);
+    }
+
+    [Fact]
+    public void Parse_HandlesModifyFileReference()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+
+### Files in scope
+- `src/Test.cs` (modify)
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        var fileRef = Assert.Single(task.FilesInScope);
+        Assert.Equal("src/Test.cs", fileRef.Path);
+        Assert.Equal(FileReferenceKind.Modify, fileRef.Kind);
+    }
+
+    [Fact]
+    public void Parse_HandlesReadOnlyFileReference()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+
+### Files in scope
+- `docs/README.md` (read-only reference)
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        var fileRef = Assert.Single(task.FilesInScope);
+        Assert.Equal("docs/README.md", fileRef.Path);
+        Assert.Equal(FileReferenceKind.ReadOnlyReference, fileRef.Kind);
+    }
+
+    [Fact]
+    public void Parse_HandlesValidationCriteria_WithCheckboxes()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+
+### Validation criteria
+- [x] First criterion
+- [ ] Second criterion
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        Assert.Equal(2, task.AcceptanceCriteria.Count);
+        Assert.Contains("First criterion", task.AcceptanceCriteria);
+        Assert.Contains("Second criterion", task.AcceptanceCriteria);
+    }
+
+    [Fact]
+    public void Parse_HandlesValidationCriteria_WithPlainBullets()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Test task
+
+## TASK-001: Test task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+
+### Validation criteria
+- First criterion
+- Second criterion
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var task = ok.Value.Milestones[0].Tasks[0];
+        Assert.Equal(2, task.AcceptanceCriteria.Count);
+        Assert.Contains("First criterion", task.AcceptanceCriteria);
+        Assert.Contains("Second criterion", task.AcceptanceCriteria);
+    }
+
+    [Fact]
+    public void Parse_HandlesTaskInChecklistWithoutDetailedDefinition()
+    {
+        var md = @"# Plan
+
+## Milestone 1 — Test
+
+- [ ] TASK-001 · Simple · Defined task
+- [ ] TASK-002 · Medium · Undefined task
+
+## TASK-001: Defined task
+
+**Status:** pending
+**Complexity:** Simple
+**Depends on:** —
+
+### What to build
+Test description.
+";
+        var result = MarkdownPlanParser.Parse(md);
+
+        var ok = Assert.IsType<Result<Plan, string>.Ok>(result);
+        var milestone = ok.Value.Milestones[0];
+        Assert.Equal(2, milestone.Tasks.Count);
+
+        var definedTask = milestone.Tasks[0];
+        Assert.Equal("TASK-001", definedTask.Id.Value);
+        Assert.Equal("Defined task", definedTask.Name);
+        Assert.NotEmpty(definedTask.Description);
+
+        var undefinedTask = milestone.Tasks[1];
+        Assert.Equal("TASK-002", undefinedTask.Id.Value);
+        Assert.Equal("Undefined task", undefinedTask.Name);
+        Assert.Empty(undefinedTask.Description); // No detailed definition
     }
 }

@@ -12,6 +12,20 @@ namespace AiDevLoop.Core
     /// </summary>
     public static class MarkdownPlanParser
     {
+        private static readonly Regex s_titleRegex = new Regex(@"^#\s+(.+)$", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_milestoneHeaderRegex = new Regex(@"^##\s+Milestone\s+(\d+)\s+—\s*(.+)$", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_nextHeaderRegex = new Regex("^##\\s+", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_taskChecklistRegex = new Regex(@"^\s*-\s*\[( |x)\]\s*(TASK-\d+)\s*·\s*([^·]+?)\s*·\s*(.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex s_taskBlockHeaderRegex = new Regex(@"^##\s*(TASK-\d+):\s*(.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex s_statusFieldRegex = new Regex(@"\*\*Status:\*\*\s*(.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_complexityFieldRegex = new Regex(@"\*\*Complexity:\*\*\s*(.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_dependsFieldRegex = new Regex(@"\*\*Depends on:\*\*\s*(.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_sectionHeaderRegex = new Regex("^###\\s+", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_numberedStepRegex = new Regex("^\\s*\\d+\\.\\s*(.+)$", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex s_fileReferenceRegex = new Regex("`?(?<path>[^()`]+)`?\\s*\\((?<kind>[^)]+)\\)", RegexOptions.Compiled);
+        private static readonly Regex s_checkboxBulletRegex = new Regex(@"^\s*-\s*\[.\]\s*(.+)$", RegexOptions.Compiled);
+        private static readonly Regex s_plainBulletRegex = new Regex(@"^\s*-\s*(.+)$", RegexOptions.Compiled);
+
         /// <summary>
         /// Parse the provided markdown content into a <see cref="Plan"/>.
         /// Returns <see cref="Result{TValue,TError}.Ok"/> on success or
@@ -27,12 +41,11 @@ namespace AiDevLoop.Core
             var normalized = markdownContent.Replace("\r\n", "\n");
 
             // Title: first '# ' heading
-            var titleMatch = Regex.Match(normalized, @"^#\s+(.+)$", RegexOptions.Multiline);
+            var titleMatch = s_titleRegex.Match(normalized);
             var title = titleMatch.Success ? titleMatch.Groups[1].Value.Trim() : "Implementation Plan";
 
             // 1) Parse milestone summary lists (top-of-file checklist under each milestone)
-            var milestoneHeader = new Regex(@"^##\s+Milestone\s+(\d+)\s+—\s*(.+)$", RegexOptions.Multiline);
-            var milestoneMatches = milestoneHeader.Matches(normalized);
+            var milestoneMatches = s_milestoneHeaderRegex.Matches(normalized);
 
             var milestones = new List<Milestone>();
 
@@ -44,11 +57,11 @@ namespace AiDevLoop.Core
                 // Collect lines following this header up to the next '## ' header
                 var startIndex = mh.Index + mh.Length;
                 var remainder = normalized.Substring(startIndex);
-                var nextHeader = Regex.Match(remainder, "^##\\s+", RegexOptions.Multiline);
+                var nextHeader = s_nextHeaderRegex.Match(remainder);
                 var sectionText = nextHeader.Success ? remainder.Substring(0, nextHeader.Index) : remainder;
 
                 // Find task checklist items in this section
-                var taskLines = Regex.Matches(sectionText, @"^\s*-\s*\[( |x)\]\s*(TASK-\d+)\s*·\s*([^·]+?)\s*·\s*(.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+                var taskLines = s_taskChecklistRegex.Matches(sectionText);
 
                 var tasks = new List<TaskDefinition>();
                 foreach (Match tl in taskLines)
@@ -70,8 +83,7 @@ namespace AiDevLoop.Core
             }
 
             // 2) Parse detailed task definition blocks (## TASK-XXX: Title)
-            var taskBlockHeader = new Regex(@"^##\s*(TASK-\d+):\s*(.+)$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-            var blockMatches = taskBlockHeader.Matches(normalized);
+            var blockMatches = s_taskBlockHeaderRegex.Matches(normalized);
 
             var detailed = new Dictionary<string, TaskDefinition>(StringComparer.OrdinalIgnoreCase);
 
@@ -86,9 +98,9 @@ namespace AiDevLoop.Core
                 var blockText = normalized.Substring(blockStart, blockEnd - blockStart).Trim();
 
                 // Extract simple metadata fields
-                var statusMatch = Regex.Match(blockText, @"\*\*Status:\*\*\s*(.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                var complexityMatch = Regex.Match(blockText, @"\*\*Complexity:\*\*\s*(.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                var dependsMatch = Regex.Match(blockText, @"\*\*Depends on:\*\*\s*(.+)$", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+                var statusMatch = s_statusFieldRegex.Match(blockText);
+                var complexityMatch = s_complexityFieldRegex.Match(blockText);
+                var dependsMatch = s_dependsFieldRegex.Match(blockText);
 
                 var status = AiDevLoop.Core.Domain.TaskStatus.Pending;
                 if (statusMatch.Success)
@@ -121,11 +133,12 @@ namespace AiDevLoop.Core
                 // Sections
                 string Section(string name)
                 {
-                    var secMatch = Regex.Match(blockText, $@"###\s+{Regex.Escape(name)}\s*(\r?\n)", RegexOptions.IgnoreCase);
+                    var secRegex = new Regex($@"###\s+{Regex.Escape(name)}\s*(\r?\n)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                    var secMatch = secRegex.Match(blockText);
                     if (!secMatch.Success) return string.Empty;
                     var secIndex = secMatch.Index + secMatch.Length;
                     var after = blockText.Substring(secIndex);
-                    var next = Regex.Match(after, "^###\\s+", RegexOptions.Multiline);
+                    var next = s_sectionHeaderRegex.Match(after);
                     return next.Success ? after.Substring(0, next.Index).Trim() : after.Trim();
                 }
 
@@ -141,7 +154,7 @@ namespace AiDevLoop.Core
                 if (!string.IsNullOrWhiteSpace(whatToBuild))
                 {
                     description = Regex.Replace(whatToBuild.Trim(), @"\r?\n", " ").Trim();
-                    var stepMatches = Regex.Matches(whatToBuild, "^\\s*\\d+\\.\\s*(.+)$", RegexOptions.Multiline);
+                    var stepMatches = s_numberedStepRegex.Matches(whatToBuild);
                     foreach (Match sm in stepMatches) steps.Add(sm.Groups[1].Value.Trim());
                 }
 
@@ -150,7 +163,11 @@ namespace AiDevLoop.Core
                     var fileLines = filesSection.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var fl in fileLines)
                     {
-                        var fm = Regex.Match(fl, "`?(?<path>[^()`]+)`?\\s*\\((?<kind>[^)]+)\\)");
+                        // Strip markdown list prefix (e.g., "- ")
+                        var line = fl.TrimStart();
+                        if (line.StartsWith("- ")) line = line.Substring(2).TrimStart();
+
+                        var fm = s_fileReferenceRegex.Match(line);
                         if (!fm.Success) continue;
                         var path = fm.Groups["path"].Value.Trim();
                         var kindStr = fm.Groups["kind"].Value.Trim().ToLowerInvariant();
@@ -167,8 +184,8 @@ namespace AiDevLoop.Core
                     var valLines = validationSection.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (var vl in valLines)
                     {
-                        var m2 = Regex.Match(vl, @"^\s*-\s*\[.\]\s*(.+)$");
-                        if (!m2.Success) m2 = Regex.Match(vl, @"^\s*-\s*(.+)$");
+                        var m2 = s_checkboxBulletRegex.Match(vl);
+                        if (!m2.Success) m2 = s_plainBulletRegex.Match(vl);
                         if (m2.Success) acceptance.Add(m2.Groups[1].Value.Trim());
                     }
                 }
