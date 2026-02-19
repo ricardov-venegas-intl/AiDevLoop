@@ -192,13 +192,18 @@ Format: `task/TASK-001-Create-solution-and-project-structure` (task number and k
    - In @docs/implementation-plan.md, mark this task's milestone list item as complete (change `- [ ] TASK-XXX · ...` to `- [x] TASK-XXX · ...`).
    - In the task definition section for this task, update the `**Status:**` field to reflect completion (for example, `**Status:** Completed`).
    - Ensure all relevant checkboxes within the completed task's details (steps, acceptance criteria, etc.) are checked as appropriate.
+   - In @./context/current-task.md, check all checkboxes under `Definition of Done` and `Acceptance Criteria`.
 
 6. **Archive Context Files**
    - Create folder under @./context/completed named `{TASK-ID}` (e.g., `TASK-001`)
-   - Move these files to the completed task folder:
+   - Move (do not copy) these files to the completed task folder:
      - @./context/current-task.md
      - @./context/implementation-notes.md
      - @./context/review.md
+   - Verify that none of the following files exist in @./context/ after the move (delete if still present):
+     - @./context/current-task.md
+     - @./context/implementation-notes.md
+     - @./context/code-review.md
 
 7. **Request User Verification to Commit**
    - Present a summary of the changes made.
