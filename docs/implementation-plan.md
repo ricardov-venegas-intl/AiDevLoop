@@ -23,7 +23,7 @@
 - [x] TASK-010 · Simple · Implement ValidationEngine
 - [x] TASK-011 · Simple · Implement ReviewAnalyzer
 - [x] TASK-012 · Simple · Implement PromptBuilder
-- [ ] TASK-013 · Trivial · Implement CommitMessageBuilder
+- [x] TASK-013 · Trivial · Implement CommitMessageBuilder
 - [ ] TASK-014 · Simple · Implement StateManager
 
 ## Milestone 5 — I/O Adapters
@@ -660,7 +660,7 @@ A pure function that constructs LLM agent prompts by combining a prompt template
 ## TASK-013: Implement CommitMessageBuilder
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Trivial
 **Depends on:** TASK-002
 
@@ -684,12 +684,12 @@ A pure function that generates a conventional commit message from a `TaskDefinit
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Generates `feat(TASK-001): add post /auth/login endpoint` format
-- [ ] Includes task ID in scope
-- [ ] Title is lowercased
-- [ ] Truncates to 72 characters with `...` for long titles
-- [ ] No trailing period
-- [ ] No lint/type errors
+- [x] Generates `feat(TASK-001): add post /auth/login endpoint` format
+- [x] Includes task ID in scope
+- [x] Title is lowercased
+- [x] Truncates to 72 characters with `...` for long titles
+- [x] No trailing period
+- [x] No lint/type errors
 
 ### Context references
 
