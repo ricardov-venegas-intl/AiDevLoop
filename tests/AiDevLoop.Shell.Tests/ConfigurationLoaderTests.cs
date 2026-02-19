@@ -95,6 +95,9 @@ verbose: true
         File.WriteAllText(Path.Combine(dir, ".aidevloop.yaml"), yaml);
 
         var result = ConfigurationLoader.Load(dir, new CommandLineOptions(null, null, false, false, null));
+        if (result is Result<Configuration, string>.Err e)
+            throw new Xunit.Sdk.XunitException($"ConfigurationLoader.Load returned Err: {e.Error}");
+
         Assert.IsType<Result<Configuration, string>.Ok>(result);
         var cfg = ((Result<Configuration, string>.Ok)result).Value;
         Assert.Equal("copilot", cfg.Llm);

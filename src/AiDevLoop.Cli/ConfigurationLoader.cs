@@ -1,5 +1,6 @@
 using System.IO;
 using System.Text.Json;
+using System.Collections.ObjectModel;
 using AiDevLoop.Core.Domain;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -81,16 +82,32 @@ public static class ConfigurationLoader
                 }
                 else // yaml / yml
                 {
+                    // Use an intermediate DTO with concrete collection types so YamlDotNet can
+                    // deserialize mappings like `commands: {}` reliably (IReadOnlyDictionary
+                    // can be problematic for the deserializer).
                     var deserializer = new DeserializerBuilder()
                         .WithNamingConvention(CamelCaseNamingConvention.Instance)
                         .IgnoreUnmatchedProperties()
                         .Build();
 
-                    var deserialized = deserializer.Deserialize<Configuration>(raw);
-                    if (deserialized is null)
+                    // DTOs mirror the public Configuration shape but use concrete types
+                    // for nested dictionaries so deserialization succeeds consistently.
+                    var dto = deserializer.Deserialize<YamlConfigurationDto>(raw);
+                    if (dto is null)
                         return new Result<Configuration, string>.Err("Configuration file deserialized to null (YAML).");
 
-                    config = deserialized;
+                    var commands = dto.Validation?.Commands ?? new Dictionary<string, string>();
+
+                    config = new Configuration(
+                        Llm: dto.Llm ?? Configuration.Default.Llm,
+                        Paths: new PathsConfiguration(
+                            Docs: dto.Paths?.Docs ?? Configuration.Default.Paths.Docs,
+                            Context: dto.Paths?.Context ?? Configuration.Default.Paths.Context,
+                            Prompts: dto.Paths?.Prompts ?? Configuration.Default.Paths.Prompts),
+                        Validation: new ValidationConfiguration(
+                            MaxReviewIterations: dto.Validation?.MaxReviewIterations ?? Configuration.Default.Validation.MaxReviewIterations,
+                            Commands: new ReadOnlyDictionary<string, string>(commands)),
+                        Verbose: dto.Verbose);
                 }
             }
             catch (JsonException jex)
@@ -115,5 +132,28 @@ public static class ConfigurationLoader
             config = config with { Verbose = true };
 
         return new Result<Configuration, string>.Ok(config);
+    }
+
+    // DTOs used only for YAML deserialization to avoid issues mapping to
+    // readonly/immutable collection types directly.
+    private class YamlConfigurationDto
+    {
+        public string? Llm { get; set; }
+        public YamlPathsDto? Paths { get; set; }
+        public YamlValidationDto? Validation { get; set; }
+        public bool Verbose { get; set; }
+    }
+
+    private class YamlPathsDto
+    {
+        public string? Docs { get; set; }
+        public string? Context { get; set; }
+        public string? Prompts { get; set; }
+    }
+
+    private class YamlValidationDto
+    {
+        public int? MaxReviewIterations { get; set; }
+        public Dictionary<string, string>? Commands { get; set; }
     }
 }

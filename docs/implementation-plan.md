@@ -14,7 +14,7 @@
 
 ## Milestone 3 — Plan Parsing & Task Management
 
-- [ ] TASK-007 · Medium · Implement MarkdownPlanParser
+- [x] TASK-007 · Medium · Implement MarkdownPlanParser
 - [ ] TASK-008 · Simple · Implement TaskSelector
 - [ ] TASK-009 · Simple · Implement PlanUpdater
 
@@ -387,7 +387,7 @@ A `CommandLineParser` that parses `string[] args` into a `CommandLineArgs` recor
 ## TASK-007: Implement MarkdownPlanParser
 
 **Milestone:** 3 — Plan Parsing & Task Management
-**Status:** pending
+**Status:** Completed
 **Complexity:** Medium
 **Depends on:** TASK-002
 

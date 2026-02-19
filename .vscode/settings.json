@@ -11,6 +11,8 @@
         "git add": true,
         "git commit": true,
         "mkdir": true,
-        "Set-Content": true
+        "Set-Content": true,
+        "git rev-parse": true,
+        "git push": true
     }
 }
