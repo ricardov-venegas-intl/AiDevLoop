@@ -182,4 +182,43 @@ public sealed class PromptBuilderTests
 
         Assert.Equal("## docs/arch.md\n\nArch.", result);
     }
+
+    // ── Extra coverage: ignored files and empty-string equivalence ────────────
+
+    [Fact]
+    public void BuildPrompt_LoadedFilesNotInContextReferences_AreIgnored()
+    {
+        var files = new Dictionary<string, string>
+        {
+            ["docs/referenced.md"] = "Referenced.",
+            ["docs/unreferenced.md"] = "Should not appear."
+        };
+
+        string result = PromptBuilder.BuildPrompt(
+            "Template",
+            "Task",
+            files,
+            ["docs/referenced.md"]);
+
+        Assert.Contains("Referenced.", result);
+        Assert.DoesNotContain("Should not appear.", result);
+    }
+
+    [Fact]
+    public void BuildPrompt_EmptyStringTemplate_TreatedSameAsNull()
+    {
+        string withNull = PromptBuilder.BuildPrompt(null, "My task", new Dictionary<string, string>(), []);
+        string withEmpty = PromptBuilder.BuildPrompt("", "My task", new Dictionary<string, string>(), []);
+
+        Assert.Equal(withNull, withEmpty);
+    }
+
+    [Fact]
+    public void BuildPrompt_EmptyStringTaskContent_TreatedSameAsNull()
+    {
+        string withNull = PromptBuilder.BuildPrompt("My template", null, new Dictionary<string, string>(), []);
+        string withEmpty = PromptBuilder.BuildPrompt("My template", "", new Dictionary<string, string>(), []);
+
+        Assert.Equal(withNull, withEmpty);
+    }
 }

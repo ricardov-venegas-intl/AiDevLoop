@@ -29,6 +29,11 @@ public static class CommitMessageBuilder
         string prefix = $"feat({task.Id.Value}): ";
         string title = task.Name.TrimEnd('.').ToLowerInvariant();
 
+        if (string.IsNullOrWhiteSpace(title))
+        {
+            return prefix.TrimEnd();
+        }
+
         string subject = prefix + title;
         if (subject.Length <= MaxSubjectLength)
         {

@@ -25,7 +25,12 @@ public static class PlanUpdater
     /// <param name="planContent">The raw markdown text of the implementation plan.</param>
     /// <param name="taskId">The identifier of the task to update.</param>
     /// <param name="newStatus">The new status to apply.</param>
-    /// <returns>The updated markdown text.</returns>
+    /// <returns>
+    /// The updated markdown text. If no matching checkbox or <c>**Status:**</c> field is
+    /// found for <paramref name="taskId"/>, the returned text is identical to
+    /// <paramref name="planContent"/>. Callers cannot distinguish this case from one where
+    /// the relevant fields were already in the requested state.
+    /// </returns>
     public static string UpdateTaskStatus(string planContent, TaskId taskId, TaskStatus newStatus)
     {
         var separator = planContent.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
