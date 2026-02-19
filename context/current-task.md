@@ -1,3 +1,3 @@
-# Task TASK-005: Implement ConfigurationValidator (ARCHIVED)
+# Task TASK-006: Implement CommandLineParser (ARCHIVED)
 
-This task's context and artifacts have been archived to `context/completed/TASK-005/`.
+This task's context and artifacts have been archived to `context/completed/TASK-006/`.

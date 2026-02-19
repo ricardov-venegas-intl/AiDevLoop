@@ -10,7 +10,7 @@
 
 - [x] TASK-004 · Simple · Implement ConfigurationLoader
 - [x] TASK-005 · Simple · Implement ConfigurationValidator
-- [ ] TASK-006 · Simple · Implement CommandLineParser
+- [x] TASK-006 · Simple · Implement CommandLineParser
 
 ## Milestone 3 — Plan Parsing & Task Management
 
@@ -336,7 +336,7 @@ A pure function that validates a `Configuration` object against the expected sch
 ## TASK-006: Implement CommandLineParser
 
 **Milestone:** 2 — Configuration & CLI Parsing
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -364,17 +364,17 @@ A `CommandLineParser` that parses `string[] args` into a `CommandLineArgs` recor
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `run` parses to `Command.Run` with no task ID
-- [ ] `run TASK-005` parses to `Command.Run` with `TaskId("TASK-005")`
-- [ ] `resume` parses to `Command.Resume`
-- [ ] `resume --from-step=4` parses with step number 4
-- [ ] `--llm=copilot` sets LLM provider override
-- [ ] `--verbose` sets verbose flag
-- [ ] `--quiet` sets quiet flag
-- [ ] `--verbose --quiet` together returns error
-- [ ] `--from-step` with `run` command returns error
-- [ ] Unknown flags return error
-- [ ] No lint/type errors
+- [x] `run` parses to `Command.Run` with no task ID
+- [x] `run TASK-005` parses to `Command.Run` with `TaskId("TASK-005")`
+- [x] `resume` parses to `Command.Resume`
+- [x] `resume --from-step=4` parses with step number 4
+- [x] `--llm=copilot` sets LLM provider override
+- [x] `--verbose` sets verbose flag
+- [x] `--quiet` sets quiet flag
+- [x] `--verbose --quiet` together returns error
+- [x] `--from-step` with `run` command returns error
+- [x] Unknown flags return error
+- [x] No lint/type errors
 
 ### Context references
 
