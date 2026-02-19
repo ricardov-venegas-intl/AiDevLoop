@@ -16,15 +16,6 @@
         "Set-Content": true,
         "git rev-parse": true,
         "git push": true,
-        "ForEach-Object": true,
-        "/^\\$dest = \"c:\\\\Users\\\\veneg\\\\source\\\\AiDevLoop\\\\context\\\\completed\\\\TASK-009\"\nNew-Item -ItemType Directory -Force -Path \\$dest \\| Out-Null\nCopy-Item \"c:\\\\Users\\\\veneg\\\\source\\\\AiDevLoop\\\\context\\\\current-task\\.md\" \"\\$dest\\\\current-task\\.md\"\nCopy-Item \"c:\\\\Users\\\\veneg\\\\source\\\\AiDevLoop\\\\context\\\\implementation-notes\\.md\" \"\\$dest\\\\implementation-notes\\.md\"\nCopy-Item \"c:\\\\Users\\\\veneg\\\\source\\\\AiDevLoop\\\\context\\\\review\\.md\" \"\\$dest\\\\review\\.md\"\nWrite-Host \"Archived to \\$dest\"$/": {
-            "approve": true,
-            "matchCommandLine": true
-        },
-        "/^New-Item -ItemType Directory -Force -Path \"c:\\\\Users\\\\veneg\\\\source\\\\AiDevLoop\\\\context\\\\completed\\\\TASK-009\" \\| Out-Null; Write-Host \"done\"$/": {
-            "approve": true,
-            "matchCommandLine": true
-        },
-        "git -C c:\\Users\\veneg\\source\\AiDevLoop": true
+        "ForEach-Object": true
     }
 }

@@ -207,6 +207,37 @@ public class PlanUpdaterTests
     }
 
     // -----------------------------------------------------------------------
+    // CRLF round-tripping
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void UpdateTaskStatus_CrlfInput_PreservesCrlf()
+    {
+        var lfPlan = MakePlan();
+        var crlfPlan = lfPlan.Replace("\n", "\r\n");
+
+        var result = PlanUpdater.UpdateTaskStatus(crlfPlan, Id("TASK-002"), TaskStatus.Done);
+
+        Assert.Contains("\r\n", result);
+        Assert.DoesNotContain("\r\r\n", result);
+        Assert.Contains("- [x] TASK-002", result);
+    }
+
+    // -----------------------------------------------------------------------
+    // Unknown task ID — no-op contract
+    // -----------------------------------------------------------------------
+
+    [Fact]
+    public void UpdateTaskStatus_UnknownTaskId_ReturnsOriginalContentUnchanged()
+    {
+        var plan = MakePlan();
+
+        var result = PlanUpdater.UpdateTaskStatus(plan, Id("TASK-999"), TaskStatus.Done);
+
+        Assert.Equal(plan, result);
+    }
+
+    // -----------------------------------------------------------------------
     // Checkbox already in opposite state
     // -----------------------------------------------------------------------
 
