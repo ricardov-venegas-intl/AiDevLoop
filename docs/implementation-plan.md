@@ -33,7 +33,7 @@
 - [x] TASK-017 · Simple · Implement ConsoleIO with output modes
 - [x] TASK-018 · Simple · Implement Claude LLM Client
 - [x] TASK-019 · Simple · Implement Copilot LLM Client
-- [ ] TASK-020 · Simple · Implement GitClient
+- [x] TASK-020 · Simple · Implement GitClient
 
 ## Milestone 6 — Orchestration & Commands
 
@@ -963,7 +963,7 @@ Implement `ILLMClient` for the GitHub Copilot CLI. Same pattern as `ClaudeLLMCli
 ## TASK-020: Implement GitClient
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003, TASK-016
 
@@ -988,12 +988,12 @@ Implement `IGitClient` using `IProcessRunner` to execute git commands. Stage all
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `StageAllAsync` executes `git add .`
-- [ ] `CommitAsync` executes `git commit -m` with the provided message
-- [ ] `GetStatusAsync` parses porcelain output into `GitStatus` fields correctly
-- [ ] Detects detached HEAD state
-- [ ] Handles clean repo (no changes) correctly
-- [ ] No lint/type errors
+- [x] `StageAllAsync` executes `git add .`
+- [x] `CommitAsync` executes `git commit -m` with the provided message
+- [x] `GetStatusAsync` parses porcelain output into `GitStatus` fields correctly
+- [x] Detects detached HEAD state
+- [x] Handles clean repo (no changes) correctly
+- [x] No lint/type errors
 
 ### Context references
 
