@@ -2,7 +2,7 @@ using AiDevLoop.Cli;
 using AiDevLoop.Core.Domain;
 using Xunit;
 
-namespace AiDevLoop.Shell.Tests;
+namespace AiDevLoop.Cli.Tests;
 
 /// <summary>
 /// Unit tests for <see cref="CommandLineParser"/>.

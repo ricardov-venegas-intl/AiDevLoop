@@ -5,6 +5,7 @@
     <Project Path="src/AiDevLoop.Shell/AiDevLoop.Shell.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/AiDevLoop.Cli.Tests/AiDevLoop.Cli.Tests.csproj" />
     <Project Path="tests/AiDevLoop.Core.Tests/AiDevLoop.Core.Tests.csproj" />
     <Project Path="tests/AiDevLoop.E2E.Tests/AiDevLoop.E2E.Tests.csproj" />
     <Project Path="tests/AiDevLoop.Shell.Tests/AiDevLoop.Shell.Tests.csproj" />
