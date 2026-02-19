@@ -22,7 +22,7 @@
 
 - [x] TASK-010 · Simple · Implement ValidationEngine
 - [x] TASK-011 · Simple · Implement ReviewAnalyzer
-- [ ] TASK-012 · Simple · Implement PromptBuilder
+- [x] TASK-012 · Simple · Implement PromptBuilder
 - [ ] TASK-013 · Trivial · Implement CommitMessageBuilder
 - [ ] TASK-014 · Simple · Implement StateManager
 
@@ -617,7 +617,7 @@ A pure function that parses a `review.md` document produced by the review agent.
 ## TASK-012: Implement PromptBuilder
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -641,13 +641,13 @@ A pure function that constructs LLM agent prompts by combining a prompt template
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Builds prompt with template + task + referenced files in correct order
-- [ ] Sections separated by clear delimiters with source identification
-- [ ] Includes only files matching context references
-- [ ] Skips missing reference files with a placeholder comment
-- [ ] Handles empty context references list (template + task only)
-- [ ] Output is a valid string
-- [ ] No lint/type errors
+- [x] Builds prompt with template + task + referenced files in correct order
+- [x] Sections separated by clear delimiters with source identification
+- [x] Includes only files matching context references
+- [x] Skips missing reference files with a placeholder comment
+- [x] Handles empty context references list (template + task only)
+- [x] Output is a valid string
+- [x] No lint/type errors
 
 ### Context references
 

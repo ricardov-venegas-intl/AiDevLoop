@@ -1,6 +1,7 @@
-# Task TASK-012: Implement PromptBuilder (ARCHIVED)
+# Task TASK-012: Implement PromptBuilder
 
-This task's context and artifacts have been archived to `context/completed/TASK-012/`.
+## Description
+A pure function that constructs LLM agent prompts by combining a prompt template string with the task definition content and pre-loaded reference file contents. The shell pre-loads all files into a dictionary before calling this function. Output a single concatenated string suitable for passing to the LLM CLI.
 
 ## Definition of Done
 - [ ] Builds prompt with template + task + referenced files in correct order
