@@ -28,7 +28,7 @@
 
 ## Milestone 5 — I/O Adapters
 
-- [ ] TASK-015 · Simple · Implement FileOperations with atomic writes
+- [x] TASK-015 · Simple · Implement FileOperations with atomic writes
 - [ ] TASK-016 · Simple · Implement ProcessRunner
 - [ ] TASK-017 · Simple · Implement ConsoleIO with output modes
 - [ ] TASK-018 · Simple · Implement Claude LLM Client
@@ -744,7 +744,7 @@ A pure function that determines the resume point based on which context files ex
 ## TASK-015: Implement FileOperations with atomic writes
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003
 
@@ -769,14 +769,14 @@ Concrete implementation of `IFileOperations`. Read files as strings, write files
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `ReadFile` returns file content as string
-- [ ] `WriteFile` uses atomic write (creates temp file, then moves)
-- [ ] `WriteFile` creates parent directories if they don't exist
-- [ ] `FileExists` and `DirectoryExists` return correct results
-- [ ] `CreateDirectory` creates nested directory structure
-- [ ] `ArchiveContextFiles` copies all three context files to `completed/{TASK-ID}/`
-- [ ] Cross-platform paths work correctly
-- [ ] No lint/type errors
+- [x] `ReadFile` returns file content as string
+- [x] `WriteFile` uses atomic write (creates temp file, then moves)
+- [x] `WriteFile` creates parent directories if they don't exist
+- [x] `FileExists` and `DirectoryExists` return correct results
+- [x] `CreateDirectory` creates nested directory structure
+- [x] `ArchiveContextFiles` copies all three context files to `completed/{TASK-ID}/`
+- [x] Cross-platform paths work correctly
+- [x] No lint/type errors
 
 ### Context references
 
