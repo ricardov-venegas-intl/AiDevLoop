@@ -21,7 +21,7 @@
 ## Milestone 4 — Core Business Logic
 
 - [x] TASK-010 · Simple · Implement ValidationEngine
-- [ ] TASK-011 · Simple · Implement ReviewAnalyzer
+- [x] TASK-011 · Simple · Implement ReviewAnalyzer
 - [ ] TASK-012 · Simple · Implement PromptBuilder
 - [ ] TASK-013 · Trivial · Implement CommitMessageBuilder
 - [ ] TASK-014 · Simple · Implement StateManager
@@ -569,7 +569,7 @@ A pure function that analyzes a list of `CommandResult` objects from validation 
 ## TASK-011: Implement ReviewAnalyzer
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -595,15 +595,15 @@ A pure function that parses a `review.md` document produced by the review agent.
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Detects `APPROVED` at document top as pass (no blocking issues)
-- [ ] Extracts `BLOCKING` issues correctly
-- [ ] Extracts `NON-BLOCKING` issues correctly
-- [ ] Extracts `NITPICK` issues correctly
-- [ ] `HasBlockingIssues` is true only when `BLOCKING` issues exist
-- [ ] Returns correct `IterationNumber` in result
-- [ ] Handles empty/malformed review document gracefully
-- [ ] Handles varied casing of classification markers
-- [ ] No lint/type errors
+- [x] Detects `APPROVED` at document top as pass (no blocking issues)
+- [x] Extracts `BLOCKING` issues correctly
+- [x] Extracts `NON-BLOCKING` issues correctly
+- [x] Extracts `NITPICK` issues correctly
+- [x] `HasBlockingIssues` is true only when `BLOCKING` issues exist
+- [x] Returns correct `IterationNumber` in result
+- [x] Handles empty/malformed review document gracefully
+- [x] Handles varied casing of classification markers
+- [x] No lint/type errors
 
 ### Context references
 

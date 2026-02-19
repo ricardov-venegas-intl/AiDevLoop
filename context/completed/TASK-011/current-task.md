@@ -1,6 +1,7 @@
-# Task TASK-011: Implement ReviewAnalyzer (ARCHIVED)
+# Task TASK-011: Implement ReviewAnalyzer
 
-This task's context and artifacts have been archived to `context/completed/TASK-011/`.
+## Description
+A pure function that parses a `review.md` document produced by the review agent. Extract issues with their classifications (`BLOCKING`, `NON-BLOCKING`, `NITPICK`), detect the `APPROVED` marker at the top of the document, and determine whether the review passes (no blocking issues exist).
 
 ## Definition of Done
 - [ ] Detects `APPROVED` at document top as pass (no blocking issues)
