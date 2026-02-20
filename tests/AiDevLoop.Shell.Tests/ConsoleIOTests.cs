@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -317,5 +318,42 @@ public class ConsoleIOTests
         string written = output.ToString();
         Assert.Contains("1. Option A", written);
         Assert.Contains("2. Option B", written);
+    }
+
+    [Fact]
+    public void Constructor_NullOutput_ThrowsArgumentNullException()
+    {
+        using StringReader input = new(string.Empty);
+        Assert.Throws<ArgumentNullException>(() => new ConsoleIO(OutputMode.Normal, null!, input));
+    }
+
+    [Fact]
+    public void Constructor_NullInput_ThrowsArgumentNullException()
+    {
+        using StringWriter output = new();
+        Assert.Throws<ArgumentNullException>(() => new ConsoleIO(OutputMode.Normal, output, null!));
+    }
+
+    [Fact]
+    public void PromptChoice_EmptyOptions_ThrowsArgumentOutOfRangeException()
+    {
+        using StringWriter output = new();
+        using StringReader input = new(string.Empty);
+        ConsoleIO sut = Create(OutputMode.Normal, output, input);
+
+        IReadOnlyList<(string Label, int Value)> options = [];
+        Assert.Throws<ArgumentOutOfRangeException>(() => sut.PromptChoice("Pick:", options));
+    }
+
+    [Fact]
+    public void PromptChoice_EOFBeforeValidChoice_ThrowsInvalidOperationException()
+    {
+        using StringWriter output = new();
+        // Empty reader simulates immediate EOF
+        using StringReader input = new(string.Empty);
+        ConsoleIO sut = Create(OutputMode.Normal, output, input);
+
+        IReadOnlyList<(string Label, int Value)> options = [("A", 1)];
+        Assert.Throws<InvalidOperationException>(() => sut.PromptChoice("Pick:", options));
     }
 }

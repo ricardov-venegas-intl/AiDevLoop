@@ -31,8 +31,8 @@ public sealed class ClaudeLLMClient : ILLMClient
     {
         ArgumentNullException.ThrowIfNull(prompt);
 
-        string escapedPrompt = prompt.Replace("\"", "\\\"");
-        string arguments = $"--print -p \"{escapedPrompt}\"";
+        string escapedPrompt = ProcessArgumentHelper.EscapeArgument(prompt);
+        string arguments = $"--print -p {escapedPrompt}";
 
         CommandResult result = await _processRunner
             .RunAsync("claude", arguments, cancellationToken)

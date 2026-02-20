@@ -31,8 +31,8 @@ public sealed class CopilotLLMClient : ILLMClient
     {
         ArgumentNullException.ThrowIfNull(prompt);
 
-        string escapedPrompt = prompt.Replace("\"", "\\\"");
-        string arguments = $"-p \"{escapedPrompt}\"";
+        string escapedPrompt = ProcessArgumentHelper.EscapeArgument(prompt);
+        string arguments = $"-p {escapedPrompt}";
 
         CommandResult result = await _processRunner
             .RunAsync("copilot", arguments, cancellationToken)
