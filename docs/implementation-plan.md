@@ -24,16 +24,16 @@
 - [x] TASK-011 · Simple · Implement ReviewAnalyzer
 - [x] TASK-012 · Simple · Implement PromptBuilder
 - [x] TASK-013 · Trivial · Implement CommitMessageBuilder
-- [ ] TASK-014 · Simple · Implement StateManager
+- [x] TASK-014 · Simple · Implement StateManager
 
 ## Milestone 5 — I/O Adapters
 
-- [ ] TASK-015 · Simple · Implement FileOperations with atomic writes
-- [ ] TASK-016 · Simple · Implement ProcessRunner
-- [ ] TASK-017 · Simple · Implement ConsoleIO with output modes
-- [ ] TASK-018 · Simple · Implement Claude LLM Client
-- [ ] TASK-019 · Simple · Implement Copilot LLM Client
-- [ ] TASK-020 · Simple · Implement GitClient
+- [x] TASK-015 · Simple · Implement FileOperations with atomic writes
+- [x] TASK-016 · Simple · Implement ProcessRunner
+- [x] TASK-017 · Simple · Implement ConsoleIO with output modes
+- [x] TASK-018 · Simple · Implement Claude LLM Client
+- [x] TASK-019 · Simple · Implement Copilot LLM Client
+- [x] TASK-020 · Simple · Implement GitClient
 
 ## Milestone 6 — Orchestration & Commands
 
@@ -702,7 +702,7 @@ A pure function that generates a conventional commit message from a `TaskDefinit
 ## TASK-014: Implement StateManager
 
 **Milestone:** 4 — Core Business Logic
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-002
 
@@ -717,7 +717,7 @@ A pure function that determines the resume point based on which context files ex
 
 ### Constraints
 
-- Pure function: `Result<ResumeState, string> DetermineResumePoint(bool currentTaskExists, bool implementationNotesExists, bool reviewExists, TaskStatus statusInPlan)`
+- Pure function: `Result<ResumeState, string> DetermineResumePoint(bool currentTaskExists, bool implementationNotesExists, bool reviewExists, TaskStatus statusInPlan, TaskId taskId)`
 - Also: `Result<TaskId, string> ExtractTaskId(string currentTaskContent)` — parse task ID from the `## TASK-XXX:` header in current-task.md
 - Resume logic per architecture:
   - No `current-task.md` → error `"No task in progress"`
@@ -728,13 +728,13 @@ A pure function that determines the resume point based on which context files ex
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Returns error when no `current-task.md` exists
-- [ ] Returns step 3 when only `current-task.md` exists
-- [ ] Returns step 4 when `implementation-notes.md` exists but `review.md` missing
-- [ ] Returns step 6 when `review.md` exists
-- [ ] `ExtractTaskId` parses task ID from markdown header
-- [ ] `ExtractTaskId` returns error for malformed content
-- [ ] No lint/type errors
+- [x] Returns error when no `current-task.md` exists
+- [x] Returns step 3 when only `current-task.md` exists
+- [x] Returns step 4 when `implementation-notes.md` exists but `review.md` missing
+- [x] Returns step 6 when `review.md` exists
+- [x] `ExtractTaskId` parses task ID from markdown header
+- [x] `ExtractTaskId` returns error for malformed content
+- [x] No lint/type errors
 
 ### Context references
 
@@ -747,7 +747,7 @@ A pure function that determines the resume point based on which context files ex
 ## TASK-015: Implement FileOperations with atomic writes
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003
 
@@ -772,14 +772,14 @@ Concrete implementation of `IFileOperations`. Read files as strings, write files
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `ReadFile` returns file content as string
-- [ ] `WriteFile` uses atomic write (creates temp file, then moves)
-- [ ] `WriteFile` creates parent directories if they don't exist
-- [ ] `FileExists` and `DirectoryExists` return correct results
-- [ ] `CreateDirectory` creates nested directory structure
-- [ ] `ArchiveContextFiles` copies all three context files to `completed/{TASK-ID}/`
-- [ ] Cross-platform paths work correctly
-- [ ] No lint/type errors
+- [x] `ReadFile` returns file content as string
+- [x] `WriteFile` uses atomic write (creates temp file, then moves)
+- [x] `WriteFile` creates parent directories if they don't exist
+- [x] `FileExists` and `DirectoryExists` return correct results
+- [x] `CreateDirectory` creates nested directory structure
+- [x] `ArchiveContextFiles` copies all three context files to `completed/{TASK-ID}/`
+- [x] Cross-platform paths work correctly
+- [x] No lint/type errors
 
 ### Context references
 
@@ -793,7 +793,7 @@ Concrete implementation of `IFileOperations`. Read files as strings, write files
 ## TASK-016: Implement ProcessRunner
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003
 
@@ -818,13 +818,13 @@ Concrete implementation of `IProcessRunner`. Execute external commands asynchron
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Executes a command and captures stdout
-- [ ] Captures stderr separately from stdout
-- [ ] Returns correct exit code
-- [ ] Respects `CancellationToken` for cancellation (kills process)
-- [ ] Limits output to 500 lines in non-verbose mode
-- [ ] Handles command-not-found gracefully
-- [ ] No lint/type errors
+- [x] Executes a command and captures stdout
+- [x] Captures stderr separately from stdout
+- [x] Returns correct exit code
+- [x] Respects `CancellationToken` for cancellation (kills process)
+- [x] Limits output to 500 lines in non-verbose mode
+- [x] Handles command-not-found gracefully
+- [x] No lint/type errors
 
 ### Context references
 
@@ -838,7 +838,7 @@ Concrete implementation of `IProcessRunner`. Execute external commands asynchron
 ## TASK-017: Implement ConsoleIO with output modes
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003
 
@@ -865,14 +865,14 @@ Concrete implementation of `IConsoleIO`. Display output respecting three modes: 
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `WriteStep` displays in Normal mode, hidden in Quiet mode
-- [ ] `WriteError` displays in all modes
-- [ ] `WriteVerbose` displays only in Verbose mode
-- [ ] `Confirm` prompts user with default value and returns response
-- [ ] `PromptChoice<T>` displays numbered options and returns selection
-- [ ] Step progress format: `[N/8] Step Name → details`
-- [ ] Color output when terminal supports ANSI
-- [ ] No lint/type errors
+- [x] `WriteStep` displays in Normal mode, hidden in Quiet mode
+- [x] `WriteError` displays in all modes
+- [x] `WriteVerbose` displays only in Verbose mode
+- [x] `Confirm` prompts user with default value and returns response
+- [x] `PromptChoice<T>` displays numbered options and returns selection
+- [x] Step progress format: `[N/8] Step Name → details`
+- [x] Color output when terminal supports ANSI
+- [x] No lint/type errors
 
 ### Context references
 
@@ -885,7 +885,7 @@ Concrete implementation of `IConsoleIO`. Display output respecting three modes: 
 ## TASK-018: Implement Claude LLM Client
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003, TASK-016
 
@@ -909,13 +909,13 @@ Implement `ILLMClient` for the Anthropic Claude CLI. Construct the `claude` comm
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Constructs correct `claude` CLI command
-- [ ] Passes prompt content to the CLI tool
-- [ ] Captures LLM response from stdout
-- [ ] Returns error when CLI returns non-zero exit code
-- [ ] Returns error for empty LLM output
-- [ ] Uses `IProcessRunner` for process execution (testable with mock)
-- [ ] No lint/type errors
+- [x] Constructs correct `claude` CLI command
+- [x] Passes prompt content to the CLI tool
+- [x] Captures LLM response from stdout
+- [x] Returns error when CLI returns non-zero exit code
+- [x] Returns error for empty LLM output
+- [x] Uses `IProcessRunner` for process execution (testable with mock)
+- [x] No lint/type errors
 
 ### Context references
 
@@ -929,7 +929,7 @@ Implement `ILLMClient` for the Anthropic Claude CLI. Construct the `claude` comm
 ## TASK-019: Implement Copilot LLM Client
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-016
 
@@ -951,12 +951,12 @@ Implement `ILLMClient` for the GitHub Copilot CLI. Same pattern as `ClaudeLLMCli
 
 ### Validation criteria (Definition of Done)
 
-- [ ] Constructs correct `copilot` CLI command with prompt
-- [ ] Passes prompt content to the CLI tool
-- [ ] Captures LLM response from stdout
-- [ ] Returns error when CLI returns non-zero exit code
-- [ ] Returns error for empty output
-- [ ] No lint/type errors
+- [x] Constructs correct `copilot` CLI command with prompt
+- [x] Passes prompt content to the CLI tool
+- [x] Captures LLM response from stdout
+- [x] Returns error when CLI returns non-zero exit code
+- [x] Returns error for empty output
+- [x] No lint/type errors
 
 ### Context references
 
@@ -969,7 +969,7 @@ Implement `ILLMClient` for the GitHub Copilot CLI. Same pattern as `ClaudeLLMCli
 ## TASK-020: Implement GitClient
 
 **Milestone:** 5 — I/O Adapters
-**Status:** pending
+**Status:** Completed
 **Complexity:** Simple
 **Depends on:** TASK-003, TASK-016
 
@@ -994,12 +994,12 @@ Implement `IGitClient` using `IProcessRunner` to execute git commands. Stage all
 
 ### Validation criteria (Definition of Done)
 
-- [ ] `StageAllAsync` executes `git add .`
-- [ ] `CommitAsync` executes `git commit -m` with the provided message
-- [ ] `GetStatusAsync` parses porcelain output into `GitStatus` fields correctly
-- [ ] Detects detached HEAD state
-- [ ] Handles clean repo (no changes) correctly
-- [ ] No lint/type errors
+- [x] `StageAllAsync` executes `git add .`
+- [x] `CommitAsync` executes `git commit -m` with the provided message
+- [x] `GetStatusAsync` parses porcelain output into `GitStatus` fields correctly
+- [x] Detects detached HEAD state
+- [x] Handles clean repo (no changes) correctly
+- [x] No lint/type errors
 
 ### Context references
 

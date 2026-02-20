@@ -34,7 +34,9 @@ public static class PlanUpdater
     public static string UpdateTaskStatus(string planContent, TaskId taskId, TaskStatus newStatus)
     {
         var separator = planContent.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
-        var lines = planContent.Split(["\r\n", "\n"], StringSplitOptions.None);
+
+        // Strip all \r before splitting so mixed or double-CR endings never leak into line elements.
+        var lines = planContent.Replace("\r", "").Split('\n');
 
         var headingPrefix = $"## {taskId.Value}:";
         var newCheckbox = newStatus == TaskStatus.Done ? "- [x]" : "- [ ]";
